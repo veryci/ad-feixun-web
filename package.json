@@ -6,14 +6,12 @@
   "proxy": "http://localhost:4040/",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev nodemon app.js",
-    "doc": "jsdoc -c ./jsdoc.json",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "@veryci/ad-flow-schema": "git+ssh://git@github.com/veryci/ad-flow-schema.git#v2.0.7",
     "co": "^4.6.0",
     "config": "^1.30.0",
     "d3-scale": "^2.0.0",

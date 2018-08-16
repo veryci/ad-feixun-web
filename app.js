@@ -12,8 +12,6 @@ const { Z_SYNC_FLUSH } = require('zlib');
 require('./models/database');
 const index = require('./routes/index');
 const users = require('./routes/users');
-const vccp = require('./routes/vccp');
-const analyze = require('./routes/analyze');
 
 const { name, version } = require('./package.json');
 
@@ -84,8 +82,6 @@ app.use(router.routes()).use(router.allowedMethods());
 // api
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
-app.use(vccp.routes(), vccp.allowedMethods());
-app.use(analyze.routes(), analyze.allowedMethods());
 
 // static
 app.use(require('koa-static')(`${__dirname}/build`));

@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const moment = require('moment');
 
 function random(length = 8) {
   let text = '';
