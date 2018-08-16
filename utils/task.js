@@ -2,23 +2,17 @@ const agent = require('superagent');
 const moment = require('moment');
 const DeviceModel = require('../models/DeviceModel');
 
-const url = 'http://c.so9.cc:8082/routerlive/feixun';
+const url = 'http://c.so9.cc:8082/routerlive/feixun/';
 // const url = 'http://localhost:7070/api/version';
-const tms = 5000;
-let int = '';
-let n = 8;
-/**
- * 当n<0或请求到数据时，停止发送请求
- */
+
+// 每10分钟取一次数据
+const tms = 1000 * 60 * 10;
+
 async function getDb() {
   try {
-    n -= 1;
+    const time = moment().format('YYYYMMDD');
 
-    if (n <= 0) {
-      clearInterval(int);
-    }
-
-    const rows = await agent.get(url);
+    const rows = await agent.get(`${url}?d=${time}`);
 
     if (rows.status === 200) {
       const { body } = rows;
@@ -30,9 +24,7 @@ async function getDb() {
       };
 
       const db = await DeviceModel.save(dt, obj);
-      if (db.info) {
-        clearInterval(int);
-      }
+
       return db;
     }
   } catch (err) {
@@ -40,6 +32,6 @@ async function getDb() {
   }
 }
 
-int = setInterval(() => {
+setInterval(() => {
   getDb();
 }, tms);
