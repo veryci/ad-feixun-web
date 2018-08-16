@@ -54,7 +54,7 @@ class Header extends React.Component {
               <Link to="/vccp">VC设备</Link>
             </Menu.Item> : null}
 
-          <Menu.Menu position="right">
+          {/* <Menu.Menu position="right">
             {
               accountType > 3 ?
                 <Menu.Item as="span">{userRole}</Menu.Item> :
@@ -65,7 +65,7 @@ class Header extends React.Component {
                 <Dropdown.Item onClick={this.logout}>登出</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-          </Menu.Menu>
+          </Menu.Menu> */}
 
         </Container>
       </Menu>
