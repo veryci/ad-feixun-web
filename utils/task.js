@@ -4,10 +4,20 @@ const DeviceModel = require('../models/DeviceModel');
 
 const url = 'http://c.so9.cc:8082/routerlive/feixun';
 // const url = 'http://localhost:7070/api/version';
-const tms = 1000 * 60 * 5;
-
+const tms = 5000;
+let int = '';
+let n = 8;
+/**
+ * 当n<0或请求到数据时，停止发送请求
+ */
 async function getDb() {
   try {
+    n -= 1;
+
+    if (n <= 0) {
+      clearInterval(int);
+    }
+
     const rows = await agent.get(url);
 
     if (rows.status === 200) {
@@ -20,6 +30,9 @@ async function getDb() {
       };
 
       const db = await DeviceModel.save(dt, obj);
+      if (db.info) {
+        clearInterval(int);
+      }
       return db;
     }
   } catch (err) {
@@ -27,6 +40,6 @@ async function getDb() {
   }
 }
 
-setInterval(() => {
+int = setInterval(() => {
   getDb();
 }, tms);
