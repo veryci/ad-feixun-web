@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import color from 'randomcolor';
+// import color from 'randomcolor';
 import {
   Container, Segment, Grid, Header,
   // Label, Card,
@@ -120,7 +120,7 @@ class OverView extends React.Component {
             </ResponsiveContainer>
           </Segment>
 
-          <h3 className="ui header">分渠道流量贡献</h3>
+          {/* <h3 className="ui header">分渠道流量贡献</h3>
           <Segment style={{ height: '600px' }}>
             <ResponsiveContainer>
               <LineChart
@@ -139,7 +139,7 @@ class OverView extends React.Component {
                 }
               </LineChart>
             </ResponsiveContainer>
-          </Segment>
+          </Segment> */}
           {/* <h3>用户渠道分布</h3>
           <Grid columns={3} divided>
             <Grid.Row stretched>
