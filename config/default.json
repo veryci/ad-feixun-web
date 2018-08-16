@@ -1,0 +1,33 @@
+{
+  "server": {
+    "port": 4040,
+    "log": {
+      "combinedLogFile": "../logs/combined.log",
+      "errorLogFile": "../logs/error.log",
+      "errorLogFilePath": "../logs",
+      "infoLogFile": "../logs/info.log",
+      "infoLogFilePath": "../logs"
+    }
+  },
+  "logs": {
+    "info-log": "logs/info.log",
+    "error-log": "logs/error.log"
+  },
+  "mongodb": {
+    "flow": {
+      "dbUrl": "mongodb://localhost:27017/",
+      "dbUser": "",
+      "dbPassword": "",
+      "dbName": "adFlow",
+      "dbCollection": {
+        "user": "user",
+        "vccp": "vccp",
+        "newCount": "newCount",
+        "missCount": "missCount",
+        "viewCount": "viewCount",
+        "uuserCount": "uuserCount"
+      }
+    }
+  },
+  "analyzeUrl":"http://54.223.17.15:3034/v1"
+}
