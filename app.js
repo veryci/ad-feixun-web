@@ -8,6 +8,7 @@ const session = require('koa-session');
 const logger = require('koa-logger');
 const compress = require('koa-compress');
 const { Z_SYNC_FLUSH } = require('zlib');
+require('./utils/task');
 
 require('./models/database');
 const index = require('./routes/index');
