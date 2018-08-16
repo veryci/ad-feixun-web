@@ -4,7 +4,7 @@ const DeviceModel = require('../models/DeviceModel');
 
 const url = 'http://c.so9.cc:8082/routerlive/feixun';
 // const url = 'http://localhost:7070/api/version';
-const tms = 5000;
+const tms = 1000 * 60 * 5;
 
 async function getDb() {
   try {
