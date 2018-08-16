@@ -16,8 +16,8 @@ async function getDb() {
     const rows = await agent.get(`${url}?d=${time}`);
 
     if (rows.status === 200) {
-      const { body } = rows;
-      logUtil.log(body);
+      const { body = {} } = rows;
+      logUtil.log(`body=====${JSON.stringify(body)}`);
       const dt = moment().format('YYYY-MM-DD');
       const obj = {
         date: dt,
@@ -26,11 +26,11 @@ async function getDb() {
       };
 
       const db = await DeviceModel.save(dt, obj);
-
+      logUtil.log(`db=====${db}`);
       return db;
     }
   } catch (err) {
-    console.log('err', err);
+    logUtil.err(err);
   }
 }
 
