@@ -1,9 +1,10 @@
 const agent = require('superagent');
 const moment = require('moment');
+const logUtil = require('./log');
 const DeviceModel = require('../models/DeviceModel');
 
 const url = 'http://c.so9.cc:8082/routerlive/feixun/';
-// const url = 'http://localhost:7070/api/version';
+// const url = 'https://devlaunchweb.withad.cn/api/version';
 
 // 每10分钟取一次数据
 const tms = 1000 * 60 * 10;
@@ -16,6 +17,7 @@ async function getDb() {
 
     if (rows.status === 200) {
       const { body } = rows;
+      logUtil.log(body);
       const dt = moment().format('YYYY-MM-DD');
       const obj = {
         date: dt,

@@ -9,10 +9,6 @@
       "infoLogFilePath": "../logs"
     }
   },
-  "logs": {
-    "info-log": "logs/info.log",
-    "error-log": "logs/error.log"
-  },
   "mongodb": {
     "flow": {
       "dbUrl": "mongodb://localhost:27017/",
@@ -30,5 +26,25 @@
       }
     }
   },
+  "logs":{
+    "appenders": {
+      "errorLogger": {
+        "type": "dateFile",
+        "filename": "./logs/err/err",
+        "pattern": "-yyyy-MM-dd.log",
+        "alwaysIncludePattern": true
+      },
+      "resLogger": {
+        "type": "dateFile",
+        "filename": "./logs/log/log",
+        "pattern": "-yyyy-MM-dd.log",
+        "alwaysIncludePattern": true
+      }
+    },
+    "categories": {
+      "err": { "appenders": ["errorLogger"], "level": "error" },
+      "default": { "appenders": ["resLogger"], "level": "info" }
+    }
+  },   
   "analyzeUrl":"http://54.223.17.15:3034/v1"
 }
