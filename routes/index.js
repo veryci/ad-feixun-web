@@ -3,12 +3,7 @@ const router = require('koa-router')({ prefix: '/api' });
 const moment = require('moment');
 const _ = require('lodash');
 
-const { allCpUser } = require('../models/UserModel');
-const { aggregateMissCountByDate } = require('../models/MissCountModel');
-const {
-  aggregateViewCountByDate,
-} = require('../models/ViewCountModel');
-const { aggregateNewCountByDate, aggregateNewCountByDateCPID } = require('../models/NewCountModel');
+// const { allCpUser } = require('../models/UserModel');
 
 // eslint-disable-next-line linebreak-style
 const { checkValueLogin } = require('../utils');
@@ -19,22 +14,24 @@ router.get('/', async (ctx) => {
   };
 });
 
-
 router.get('/dashboard/newcp', checkValueLogin, async (ctx) => {
   const days = 10;
-  const todayZeroTime = moment().endOf('day').toDate();
+  // const todayZeroTime = moment().endOf('day').toDate();
   // const yesterdayZeroTime = moment().subtract(1, 'day').startOf('day').toDate();
-  const tenZeroTime = moment().subtract(days, 'day').startOf('day').toDate();
+  // const tenZeroTime = moment().subtract(days, 'day').startOf('day').toDate();
   try {
-    const vccps = await allCpUser();
+    // const vccps = await allCpUser();
+    const vccps = [];
     const vccp = {};
     vccps.forEach(({ username, cpId }) => {
       vccp[cpId] = username;
     });
-    const datas = await aggregateNewCountByDateCPID({
-      startDate: tenZeroTime, endDate: todayZeroTime,
-    });
+    // const datas = await aggregateNewCountByDateCPID({
+    //   startDate: tenZeroTime, endDate: todayZeroTime,
+    // });
     // console.log(datas);
+
+    const datas = [];
 
     const cpIds = new Set();
     datas.forEach((d) => {
