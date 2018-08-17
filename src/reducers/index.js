@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { user, users } from './user';
-import { vccps } from './vccp';
 import { SET_DATA } from '../actions';
 import {
   dashboard, dashboardnew,
   flow, view, miss, uuid, vc, luyouqi, uuidActive,
 } from './dashboard';
+import onlineData from './online';
+import dailyActive from './dailyActive';
+
 
 export const data = (state = {
   datas: [],
@@ -19,7 +21,6 @@ export const data = (state = {
 };
 
 export default combineReducers({
-  vccps,
   user,
   data,
   users,
@@ -32,5 +33,7 @@ export default combineReducers({
   uuidActive,
   vc,
   luyouqi,
+  onlineData,
+  dailyActive,
   router: routerReducer,
 });

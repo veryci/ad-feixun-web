@@ -10,6 +10,8 @@ import {
   Table,
 } from 'semantic-ui-react';
 
+const { REACT_APP_VERSION } = process.env;
+
 class OnLine extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +28,7 @@ class OnLine extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      // onLineData: nextProps.onLineData,
+      onLineData: nextProps.onLineData,
     });
   }
 
@@ -100,6 +102,7 @@ class OnLine extends React.Component {
   render() {
     return (
       <React.Fragment>
+
         <Container style={{ marginTop: '7em' }}>
           <Table celled>
             <Table.Body>
@@ -107,7 +110,8 @@ class OnLine extends React.Component {
             </Table.Body>
           </Table>
         </Container>
-        <Segment vertical style={{ padding: '5em 0em' }}>
+
+        <Segment vertical style={{ padding: '1em 0em' }}>
           <ReactEcharts
             className="pie-charts"
             option={this.pieOption(this.state.onLineData)}
@@ -115,6 +119,13 @@ class OnLine extends React.Component {
             theme="theme_name"
           />
         </Segment>
+
+        <Segment vertical style={{ padding: '1em 0em' }}>
+          <Container textAlign="right" >
+            {`version:${REACT_APP_VERSION}（目前使用假数据）`}
+          </Container>
+        </Segment>
+
       </React.Fragment>
     );
   }
@@ -122,11 +133,11 @@ class OnLine extends React.Component {
 
 
 OnLine.propTypes = {
-  // onLineData: PropTypes.object.isRequired,
+  onLineData: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  // onLineData: state.onLineData,
+  onLineData: state.onLineData,
 });
 
 export default connect(mapStateToProps, {
