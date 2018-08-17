@@ -41,7 +41,7 @@ app.use(convert(json()));
 app.keys = ['some secret hurr'];
 
 const CONFIG = {
-  key: 'veryci:flow-web', /** (string) cookie key (default is koa:sess) */
+  key: 'veryci:feixun-web', /** (string) cookie key (default is koa:sess) */
   /** (number || 'session') maxAge in ms (default is 1 days) */
   /** 'session' will result in a cookie that expires when session/browser is closed */
   /** Warning: If a session cookie is stolen, this cookie will never expire */

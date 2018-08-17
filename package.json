@@ -1,6 +1,6 @@
 {
   "name": "feixun-web",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "斐讯平台",
   "private": true,
   "proxy": "http://localhost:4040/",

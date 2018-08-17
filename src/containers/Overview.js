@@ -21,7 +21,7 @@ import {
 } from '../actions/dashboard';
 // import { Object } from 'core-js';
 
-// const { REACT_APP_VERSION } = process.env;
+const { REACT_APP_VERSION } = process.env;
 
 // function formatNumber(num) {
 //   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -242,11 +242,11 @@ class OverView extends React.Component {
             </Grid.Row>
           </Grid> */}
         </Container>
-        {/* <Segment vertical style={{ padding: '5em 0em' }}>
+        <Segment vertical style={{ padding: '5em 0em' }}>
           <Container textAlign="right" >
-            {`version:${REACT_APP_VERSION}`}
+            {`version:${REACT_APP_VERSION}（目前使用假数据）`}
           </Container>
-        </Segment> */}
+        </Segment>
         <Segment vertical style={{ padding: '5em 0em' }}>
           <ReactEcharts
             className="pie-charts"
