@@ -8,8 +8,8 @@ import {
   // Radio,
 } from 'semantic-ui-react';
 import {
-  XAxis, YAxis, Tooltip, CartesianGrid,
-  Line, LineChart, Legend, ResponsiveContainer,
+// XAxis, YAxis, Tooltip, CartesianGrid,
+// Line, LineChart, Legend, ResponsiveContainer,
 } from 'recharts';
 
 import {
@@ -35,7 +35,7 @@ class OverView extends React.Component {
     const {
       flow = {}, view = {}, miss = {},
       // uuidActive = {},
-      dashboard = {},
+      // dashboard = {},
       dashboardnew = {},
       // uuid = {},
     } = this.props;
@@ -43,7 +43,7 @@ class OverView extends React.Component {
     const viewDatas = view.datas || [0, 0, 0];
     const missDatas = miss.datas || [0, 0, 0];
     // const activeDatas = uuidActive.datas || [0, 0, 0];
-    const overViewChartDatas = dashboard.datas || [];
+    // const overViewChartDatas = dashboard.datas || [];
     const overViewChartCPNewDatas = dashboardnew.datas || [];
     const cpIds = [];
     if (overViewChartCPNewDatas[0]) {
@@ -100,7 +100,7 @@ class OverView extends React.Component {
             </Grid.Row>
           </Grid>
 
-          <Segment style={{ height: '300px' }}>
+          {/* <Segment style={{ height: '300px' }}>
             <ResponsiveContainer>
               <LineChart
                 data={overViewChartDatas}
@@ -118,7 +118,7 @@ class OverView extends React.Component {
                 <Line isAnimationActive={false} type="monotone" dataKey="miss" stroke="#8884d8" />
               </LineChart>
             </ResponsiveContainer>
-          </Segment>
+          </Segment> */}
 
           {/* <h3 className="ui header">分渠道流量贡献</h3>
           <Segment style={{ height: '600px' }}>
@@ -135,7 +135,10 @@ class OverView extends React.Component {
                 <Tooltip />
                 <Legend verticalAlign="top" align="left" layout="vertical" height={36} />
                 {
-                  cpIds.map(cpId => <Line key={cpId} isAnimationActive={false} type="monotone" dataKey={cpId} stroke={color()} />)
+                  cpIds.map
+                  (cpId =>
+                     <Line key={cpId} isAnimationActive={false}
+                     type="monotone" dataKey={cpId} stroke={color()} />)
                 }
               </LineChart>
             </ResponsiveContainer>
@@ -174,7 +177,7 @@ OverView.propTypes = {
   missActon: PropTypes.func.isRequired,
   // uuidActon: PropTypes.func.isRequired,
   // uuidActiveActon: PropTypes.func.isRequired,
-  dashboard: PropTypes.object.isRequired,
+  // dashboard: PropTypes.object.isRequired,
   dashboardActon: PropTypes.func.isRequired,
   dashboardnew: PropTypes.object.isRequired,
   dashboardNewAction: PropTypes.func.isRequired,
