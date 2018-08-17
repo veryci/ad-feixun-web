@@ -26,8 +26,8 @@ export const missDatas = () => fetch('/api/dashboard/miss', {
   credentials: 'same-origin',
 });
 
-export const uuidActiveDatas = () => fetch('/api/dashboard/activeuuser', {
-  method: 'GET',
+export const uuidActiveDatas = () => fetch('/api/active', {
+  method: 'POST',
   credentials: 'same-origin',
 });
 

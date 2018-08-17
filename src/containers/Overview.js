@@ -6,6 +6,7 @@ import {
   Container, Segment, Grid, Header,
   // Label, Card,
   // Radio,
+  Table,
 } from 'semantic-ui-react';
 import {
 // XAxis, YAxis, Tooltip, CartesianGrid,
@@ -16,6 +17,7 @@ import {
   flowActon, viewActon, missActon,
   uuidActiveActon, uuidActon, dashboardActon, dashboardNewAction,
 } from '../actions/dashboard';
+// import { Object } from 'core-js';
 
 const { REACT_APP_VERSION } = process.env;
 
@@ -30,11 +32,28 @@ class OverView extends React.Component {
     this.props.missActon();
     this.props.dashboardActon();
     this.props.dashboardNewAction();
+    this.props.uuidActiveActon();
   }
+
+  renderTable = (datas) => {
+    const keyArr = Object.keys(datas);
+    const tableCell = keyArr.map(item => (
+      <Table.Row key={item}>
+        <Table.Cell>
+          {item}
+        </Table.Cell>
+        <Table.Cell>
+          {datas[item]}
+        </Table.Cell>
+      </Table.Row>
+    ));
+    return tableCell;
+  }
+
   render() {
     const {
       flow = {}, view = {}, miss = {},
-      // uuidActive = {},
+      uuidActive = {},
       // dashboard = {},
       dashboardnew = {},
       // uuid = {},
@@ -42,7 +61,7 @@ class OverView extends React.Component {
     const flowDatas = flow.datas || [0, 0, 0];
     const viewDatas = view.datas || [0, 0, 0];
     const missDatas = miss.datas || [0, 0, 0];
-    // const activeDatas = uuidActive.datas || [0, 0, 0];
+    const activeDatas = uuidActive.datas.data || [0, 0, 0];
     // const overViewChartDatas = dashboard.datas || [];
     const overViewChartCPNewDatas = dashboardnew.datas || [];
     const cpIds = [];
@@ -56,7 +75,7 @@ class OverView extends React.Component {
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
-          <Grid columns={3} divided>
+          {/* <Grid columns={3} divided>
             <Grid.Row stretched>
               <Grid.Column>
                 <Header as="h3">
@@ -98,8 +117,13 @@ class OverView extends React.Component {
                 </Segment.Group>
               </Grid.Column>
             </Grid.Row>
-          </Grid>
+          </Grid> */}
 
+          <Table celled>
+            <Table.Body>
+              {this.renderTable(activeDatas)}
+            </Table.Body>
+          </Table>
           {/* <Segment style={{ height: '300px' }}>
             <ResponsiveContainer>
               <LineChart
@@ -158,11 +182,11 @@ class OverView extends React.Component {
             </Grid.Row>
           </Grid> */}
         </Container>
-        <Segment vertical style={{ padding: '5em 0em' }}>
+        {/* <Segment vertical style={{ padding: '5em 0em' }}>
           <Container textAlign="right" >
             {`version:${REACT_APP_VERSION}`}
           </Container>
-        </Segment>
+        </Segment> */}
       </React.Fragment>
     );
   }
@@ -171,12 +195,13 @@ OverView.propTypes = {
   flow: PropTypes.object.isRequired,
   view: PropTypes.object.isRequired,
   miss: PropTypes.object.isRequired,
+  uuidActive: PropTypes.object.isRequired,
   // uuid: PropTypes.object.isRequired, // 新增
   flowActon: PropTypes.func.isRequired,
   viewActon: PropTypes.func.isRequired,
   missActon: PropTypes.func.isRequired,
   // uuidActon: PropTypes.func.isRequired,
-  // uuidActiveActon: PropTypes.func.isRequired,
+  uuidActiveActon: PropTypes.func.isRequired,
   // dashboard: PropTypes.object.isRequired,
   dashboardActon: PropTypes.func.isRequired,
   dashboardnew: PropTypes.object.isRequired,
