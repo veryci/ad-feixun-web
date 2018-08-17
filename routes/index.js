@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 const router = require('koa-router')({ prefix: '/api' });
 const moment = require('moment');
+const DeviceModel = require('../models/DeviceModel');
 const _ = require('lodash');
 
 // const { allCpUser } = require('../models/UserModel');
@@ -150,6 +151,15 @@ router.get('/dashboard', checkValueLogin, async (ctx) => {
   } catch (error) {
     ctx.throw(error);
   }
+});
+
+router.post('/active', async (ctx) => {
+  const startTime = moment().subtract(1, 'day').startOf('day').toDate();
+  const endTime = moment().endOf('day').toDate();
+
+  const data = await DeviceModel.search(startTime, endTime);
+
+  ctx.body = { data };
 });
 
 module.exports = router;

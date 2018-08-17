@@ -19,3 +19,42 @@ exports.save = async (dt, obj) => {
   }
   return rows;
 };
+/* eslint no-restricted-syntax:
+["error", "FunctionExpression",
+"WithStatement", "BinaryExpression[operator='in']"] */
+exports.search = async (startTime, endTime) => {
+  let rows = await DeviceModel.find({ date: { $gte: '2019-02-16', $lte: endTime } });
+
+  if (rows.length === 0) {
+    rows = [{
+      info: {
+        k1: 300,
+        k2: 200,
+        k3: 500,
+      },
+    }, {
+      info: {
+        k1: 240,
+        k2: 320,
+        k3: 510,
+      },
+    }];
+  }
+
+
+  const data = {};
+
+  rows.forEach((element) => {
+    const { info = {} } = element;
+
+    for (const i in info) {
+      if (!data[i]) {
+        data[i] = info[i];
+      } else {
+        data[i] += info[i];
+      }
+    }
+  });
+
+  return data;
+};
