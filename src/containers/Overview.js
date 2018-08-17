@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import color from 'randomcolor';
 import {
-  Container, Segment, Grid, Header,
+  Container,
+  // Segment, Grid, Header,
   // Label, Card,
   // Radio,
   Table,
@@ -19,11 +20,11 @@ import {
 } from '../actions/dashboard';
 // import { Object } from 'core-js';
 
-const { REACT_APP_VERSION } = process.env;
+// const { REACT_APP_VERSION } = process.env;
 
-function formatNumber(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+// function formatNumber(num) {
+//   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+// }
 
 class OverView extends React.Component {
   componentDidMount() {
@@ -52,15 +53,15 @@ class OverView extends React.Component {
 
   render() {
     const {
-      flow = {}, view = {}, miss = {},
+      // flow = {}, view = {}, miss = {},
       uuidActive = {},
       // dashboard = {},
       dashboardnew = {},
       // uuid = {},
     } = this.props;
-    const flowDatas = flow.datas || [0, 0, 0];
-    const viewDatas = view.datas || [0, 0, 0];
-    const missDatas = miss.datas || [0, 0, 0];
+    // const flowDatas = flow.datas || [0, 0, 0];
+    // const viewDatas = view.datas || [0, 0, 0];
+    // const missDatas = miss.datas || [0, 0, 0];
     const activeDatas = uuidActive.datas.data || [0, 0, 0];
     // const overViewChartDatas = dashboard.datas || [];
     const overViewChartCPNewDatas = dashboardnew.datas || [];
@@ -71,7 +72,7 @@ class OverView extends React.Component {
         if (ks[0].length === 7) cpIds.push(k);
       });
     }
-    const countStyle = { fontSize: '2em' };
+    // const countStyle = { fontSize: '2em' };
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
@@ -85,7 +86,9 @@ class OverView extends React.Component {
                   </Header.Subheader>
                 </Header>
                 <Segment.Group>
-                  <Segment color="blue">今天<p style={countStyle}>{formatNumber(flowDatas[0])}</p></Segment>
+                  <Segment color="blue">
+                    今天<p style={countStyle}>{formatNumber(flowDatas[0])}</p>
+                  </Segment>
                   <Segment>昨天<p style={countStyle}>{formatNumber(flowDatas[1])}</p></Segment>
                   <Segment>七天<p style={countStyle}>{formatNumber(flowDatas[2])}</p></Segment>
                 </Segment.Group>
@@ -98,7 +101,9 @@ class OverView extends React.Component {
                   </Header.Subheader>
                 </Header>
                 <Segment.Group>
-                  <Segment color="green">今天<p style={countStyle}>{formatNumber(viewDatas[0])}</p></Segment>
+                  <Segment color="green">
+                    今天<p style={countStyle}>{formatNumber(viewDatas[0])}</p>
+                  </Segment>
                   <Segment>昨天<p style={countStyle}>{formatNumber(viewDatas[1])}</p></Segment>
                   <Segment>七天<p style={countStyle}>{formatNumber(viewDatas[2])}</p></Segment>
                 </Segment.Group>
@@ -111,7 +116,9 @@ class OverView extends React.Component {
                   </Header.Subheader>
                 </Header>
                 <Segment.Group>
-                  <Segment color="orange">今天<p style={countStyle}>{formatNumber(missDatas[0])}</p></Segment>
+                  <Segment color="orange">
+                    今天<p style={countStyle}>{formatNumber(missDatas[0])}</p>
+                  </Segment>
                   <Segment>昨天<p style={countStyle}>{formatNumber(missDatas[1])}</p></Segment>
                   <Segment>七天<p style={countStyle}>{formatNumber(missDatas[2])}</p></Segment>
                 </Segment.Group>
@@ -192,9 +199,9 @@ class OverView extends React.Component {
   }
 }
 OverView.propTypes = {
-  flow: PropTypes.object.isRequired,
-  view: PropTypes.object.isRequired,
-  miss: PropTypes.object.isRequired,
+  // flow: PropTypes.object.isRequired,
+  // view: PropTypes.object.isRequired,
+  // miss: PropTypes.object.isRequired,
   uuidActive: PropTypes.object.isRequired,
   // uuid: PropTypes.object.isRequired, // 新增
   flowActon: PropTypes.func.isRequired,

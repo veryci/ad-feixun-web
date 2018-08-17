@@ -2,8 +2,6 @@
 import 'whatwg-fetch';
 import users from './users';
 import * as dashboard from './dashboard';
-import * as analyze from './analyze';
-import * as editData from './editData';
 
 
 const initAuth = () => fetch('/api/users/auth', {
@@ -17,12 +15,9 @@ const fetchData = () => fetch('/api/data', {
   credentials: 'same-origin',
 });
 
-// console.log(index);
 export default {
   initAuth,
   fetchData,
   ...users,
   ...dashboard,
-  ...analyze,
-  ...editData,
 };
