@@ -56,6 +56,9 @@ class Header extends React.Component {
           <Menu.Item as="span" active={pathname === '/'}>
             <Link to="/">日活</Link>
           </Menu.Item>
+          <Menu.Item as="span" active={pathname === '/online'}>
+            <Link to="/online">在线</Link>
+          </Menu.Item>
           {/* <Menu.Item as="span" active={pathname === '/'}>
             <Link to="/">流量</Link>
           </Menu.Item> */}

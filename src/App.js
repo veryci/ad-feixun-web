@@ -5,9 +5,9 @@ import { ConnectedRouter } from 'react-router-redux';
 import Loadable from 'react-loadable';
 import { store, history } from './store';
 import './App.css';
-
 import Login from './components/Login';
 import Header from './containers/Header';
+import OnLine from './containers/OnLine';
 
 const Loading = () => <div>Loading...</div>;
 
@@ -23,6 +23,7 @@ const App = () => (
         <Header />
         <Route exact path="/" component={Overview} />
         <Route path="/login" component={Login} />
+        <Route path="/online" component={OnLine} />
       </div>
     </ConnectedRouter>
   </Provider>
