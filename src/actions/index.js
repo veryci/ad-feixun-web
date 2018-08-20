@@ -17,9 +17,7 @@ export function logoutAction() {
       });
       dispatch(push('/login'));
       return;
-      // window.location.href = '/';
     } catch (err) {
-      alert(err.message);
       dispatch({
         type: SET_USER,
         user: {
