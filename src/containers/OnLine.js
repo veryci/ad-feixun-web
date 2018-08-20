@@ -18,11 +18,13 @@ class OnLine extends React.Component {
     super(props);
     this.state = {
       onlineData: {
+        'feixun-k2': 800,
+        'feixun-k3': 900,
       },
     };
   }
   componentDidMount() {
-    this.props.onlineDataAction();
+    // this.props.onlineDataAction();
   }
 
   componentWillReceiveProps(nextProps) {

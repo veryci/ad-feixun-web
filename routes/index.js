@@ -2,6 +2,7 @@
 const router = require('koa-router')({ prefix: '/api' });
 const moment = require('moment');
 const DeviceModel = require('../models/DeviceModel');
+const OnlineModel = require('../models/onlineModel');
 const _ = require('lodash');
 
 // const { allCpUser } = require('../models/UserModel');
@@ -165,7 +166,7 @@ router.post('/active', async (ctx) => {
 router.get('/online', async (ctx) => {
   const time = moment(new Date()).format('YYYYMMDD');
 
-  const data = await DeviceModel.getOnlineData(time);
+  const data = await OnlineModel.getOnlineData(time);
 
   ctx.body = data;
 });

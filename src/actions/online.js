@@ -7,7 +7,6 @@ export function onlineDataAction() {
     try {
       const response = await api.onlineData();
       const data = await response.json();
-      console.log(data, 99999999);
       return dispatch({
         type: ONLINE_DATA,
         onlineData: {

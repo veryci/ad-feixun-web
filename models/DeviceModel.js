@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 const Device = require('../schema/Device');
 const config = require('config');
-const request = require('superagent');
 
 const { dbCollection } = config.get('mongodb.flow');
-const routerLiveUrl = config.get('routerLiveUrl');
 
 const deviceSchema = new mongoose.Schema(Device);
 
@@ -25,7 +23,9 @@ exports.save = async (dt, obj) => {
 ["error", "FunctionExpression",
 "WithStatement", "BinaryExpression[operator='in']"] */
 exports.search = async (startTime, endTime) => {
-  let rows = await DeviceModel.find({ date: { $gte: '2019-02-16', $lte: endTime } });
+  // let rows = await DeviceModel.find({ date: { $gte: '2019-02-16', $lte: endTime } });
+  let rows = await DeviceModel.find().limit(1);
+
 
   if (rows.length === 0) {
     rows = [{
@@ -61,14 +61,3 @@ exports.search = async (startTime, endTime) => {
   return data;
 };
 
-exports.getOnlineData = async (time) => {
-  let data = {};
-  try {
-    const result = await request.get(`${routerLiveUrl}/?d=${time}`);
-    data = JSON.parse(result.text);
-  } catch (err) {
-    console.log(err);
-    data = 'get error';
-  }
-  return data;
-};

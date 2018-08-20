@@ -22,7 +22,8 @@
         "missCount": "missCount",
         "viewCount": "viewCount",
         "uuserCount": "uuserCount",
-        "device": "device"
+        "device": "device",
+        "online": "online"
       }
     }
   },
