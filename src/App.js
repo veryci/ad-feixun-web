@@ -5,14 +5,18 @@ import { ConnectedRouter } from 'react-router-redux';
 import Loadable from 'react-loadable';
 import { store, history } from './store';
 import './App.css';
-import Login from './components/Login';
 import Header from './containers/Header';
-import OnLine from './containers/OnLine';
+import Footer from './containers/Footer';
 
 const Loading = () => <div>Loading...</div>;
 
-const Overview = Loadable({
-  loader: () => import('./containers/Overview'),
+const DailyActive = Loadable({
+  loader: () => import('./containers/DailyActive'),
+  loading: Loading,
+});
+
+const OnLine = Loadable({
+  loader: () => import('./containers/OnLine'),
   loading: Loading,
 });
 
@@ -21,12 +25,12 @@ const App = () => (
     <ConnectedRouter history={history}>
       <div>
         <Header />
-        <Route exact path="/" component={Overview} />
-        <Route path="/login" component={Login} />
+        <Route exact path="/" component={DailyActive} />
         <Route path="/online" component={OnLine} />
+        <Footer />
       </div>
     </ConnectedRouter>
-  </Provider>
+  </Provider >
 );
 
 export default App;

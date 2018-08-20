@@ -19,17 +19,11 @@ exports.save = async (dt, obj) => {
   }
   return rows;
 };
-/* eslint no-restricted-syntax:
-["error", "FunctionExpression",
-"WithStatement", "BinaryExpression[operator='in']"] */
+
 exports.search = async (startTime, endTime) => {
-  // let rows = await DeviceModel.find({ date: { $gte: '2019-02-16', $lte: endTime } });
-  let rows = await DeviceModel.find().sort({ date: '-1' }).limit(1);
-  console.log(rows, '========');
-
-
-  if (rows.length === 0) {
-    rows = [{
+  let data = await DeviceModel.find({ date: { $gte: startTime, $lte: endTime } }).sort({ date: '-1' });
+  if (data.length === 0) {
+    data = [{
       info: {
         k1: 300,
         k2: 200,
@@ -43,21 +37,6 @@ exports.search = async (startTime, endTime) => {
       },
     }];
   }
-
-
-  const data = {};
-
-  rows.forEach((element) => {
-    const { info = {} } = element;
-
-    for (const i in info) {
-      if (!data[i]) {
-        data[i] = info[i];
-      } else {
-        data[i] += info[i];
-      }
-    }
-  });
 
   return data;
 };

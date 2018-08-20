@@ -5,13 +5,13 @@ export const DAILY_ACTIVE = 'DAILY_ACTIVE';
 export function dailyDataAction() {
   return async (dispatch) => {
     try {
-      const response = await api.dailyActiveData();
+      const response = await api.dailyActive();
       if (response.status === 200) {
-        const datas = await response.json();
+        const res = await response.json();
         return dispatch({
           type: DAILY_ACTIVE,
           dailyActiveData: {
-            datas,
+            datas: res.data,
             errMsg: '',
           },
         });
@@ -20,7 +20,7 @@ export function dailyDataAction() {
       return dispatch({
         type: DAILY_ACTIVE,
         dailyActiveData: {
-          datas: {},
+          datas: [],
           errMsg: error,
         },
       });

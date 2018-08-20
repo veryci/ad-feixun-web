@@ -1,11 +1,6 @@
 {
   "server": {
-    "port": 4040,
-    "log": {
-      "combinedLogFile": "../logs/combined.log",
-      "errorLogFile": "../logs/error.log",
-      "infoLogFile": "../logs/info.log"
-    }
+    "port": 4040
   },
   "mongodb": {
     "flow": {
@@ -14,12 +9,6 @@
       "dbPassword": "",
       "dbName": "adFeixun",
       "dbCollection": {
-        "user": "user",
-        "vccp": "vccp",
-        "newCount": "newCount",
-        "missCount": "missCount",
-        "viewCount": "viewCount",
-        "uuserCount": "uuserCount",
         "device": "device",
         "online": "online"
       }

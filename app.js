@@ -12,7 +12,6 @@ require('./utils/routerLiveTask');
 
 require('./models/database');
 const index = require('./routes/index');
-const users = require('./routes/users');
 
 const { name, version } = require('./package.json');
 
@@ -82,7 +81,6 @@ app.use(router.routes()).use(router.allowedMethods());
 
 // api
 app.use(index.routes(), index.allowedMethods());
-app.use(users.routes(), users.allowedMethods());
 
 // static
 app.use(require('koa-static')(`${__dirname}/build`));

@@ -2,29 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactEcharts from 'echarts-for-react';
-import {
-  Container, Segment,
-  // Grid, Header,
-  // Label, Card,
-  // Radio,
-  Table,
-} from 'semantic-ui-react';
+import { Container, Segment, Table } from 'semantic-ui-react';
 import { onlineDataAction } from '../actions/online';
-
-const { REACT_APP_VERSION } = process.env;
 
 class OnLine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      onlineData: {
-        'feixun-k2': 800,
-        'feixun-k3': 900,
-      },
+      onlineData: {},
     };
   }
   componentDidMount() {
-    // this.props.onlineDataAction();
+    this.props.onlineDataAction();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,12 +109,6 @@ class OnLine extends React.Component {
             </Table.Body>
           </Table>
 
-          <Segment basic style={{ padding: '1em 0em' }}>
-            <Container textAlign="right" >
-              {`version:${REACT_APP_VERSION}（目前使用假数据）`}
-            </Container>
-          </Segment>
-
         </Container>
 
       </React.Fragment>
@@ -133,10 +116,9 @@ class OnLine extends React.Component {
   }
 }
 
-
 OnLine.propTypes = {
   onlineData: PropTypes.object.isRequired,
-  // onlineDataAction: PropTypes.func.isRequired,
+  onlineDataAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

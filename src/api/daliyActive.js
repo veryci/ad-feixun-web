@@ -1,8 +1,8 @@
 import 'whatwg-fetch';
 
-const dailyActiveData = () => fetch('/api/active', {
+const dailyActive = () => fetch('/api/active', {
   method: 'POST',
   credentials: 'same-origin',
 });
 
-export default dailyActiveData;
+export default dailyActive;
