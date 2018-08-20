@@ -8,7 +8,7 @@ const deviceSchema = new mongoose.Schema(Device);
 
 const DeviceModel = mongoose.model(dbCollection.device, deviceSchema, dbCollection.device);
 
-exports.UserModel = DeviceModel;
+exports.DeviceModel = DeviceModel;
 
 exports.save = async (dt, obj) => {
   let rows = null;
