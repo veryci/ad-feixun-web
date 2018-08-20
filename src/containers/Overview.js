@@ -77,9 +77,8 @@ class OverView extends React.Component {
       },
       legend: {
         data: legendData,
-        orient: 'vertical',
-        left: 100,
-        top: 'middle',
+        orient: 'horizontal',
+        top: 'bottom',
       },
       series: {
         type: 'pie',
@@ -243,7 +242,12 @@ class OverView extends React.Component {
           </Grid> */}
         </Container>
 
-        <Segment vertical style={{ padding: '1em 0em' }}>
+        <Segment
+          basic
+          style={{
+            padding: '1em 0em', width: '80%', margin: '0 auto',
+          }}
+        >
           <ReactEcharts
             className="pie-charts"
             option={this.pieOption(activeDatas)}
@@ -252,7 +256,7 @@ class OverView extends React.Component {
           />
         </Segment>
 
-        <Segment vertical style={{ padding: '1em 0em' }}>
+        <Segment basic style={{ padding: '1em 0em' }}>
           <Container textAlign="right" >
             {`version:${REACT_APP_VERSION}（目前使用假数据）`}
           </Container>

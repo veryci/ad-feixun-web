@@ -72,9 +72,8 @@ class OnLine extends React.Component {
       },
       legend: {
         data: legendData,
-        orient: 'vertical',
-        left: 100,
-        top: 'middle',
+        orient: 'horizontal',
+        top: 'bottom',
       },
       series: {
         type: 'pie',
@@ -111,7 +110,7 @@ class OnLine extends React.Component {
           </Table>
         </Container>
 
-        <Segment vertical style={{ padding: '1em 0em' }}>
+        <Segment basic style={{ padding: '1em 0em', width: '80%', margin: '0 auto' }}>
           <ReactEcharts
             className="pie-charts"
             option={this.pieOption(this.state.onLineData)}
@@ -120,12 +119,11 @@ class OnLine extends React.Component {
           />
         </Segment>
 
-        <Segment vertical style={{ padding: '1em 0em' }}>
+        <Segment basic style={{ padding: '1em 0em' }}>
           <Container textAlign="right" >
             {`version:${REACT_APP_VERSION}（目前使用假数据）`}
           </Container>
         </Segment>
-
       </React.Fragment>
     );
   }
