@@ -178,6 +178,20 @@ class OverView extends React.Component {
             </Grid.Row>
           </Grid> */}
 
+          <Segment
+            basic
+            style={{
+              padding: '1em 0em', width: '80%', margin: '0 auto',
+            }}
+          >
+            <ReactEcharts
+              className="pie-charts"
+              option={this.pieOption(activeDatas)}
+              style={{ height: 300, marginBottom: 20 }}
+              theme="theme_name"
+            />
+          </Segment>
+
           <Table celled>
             <Table.Body>
               {this.renderTable(activeDatas)}
@@ -241,20 +255,6 @@ class OverView extends React.Component {
             </Grid.Row>
           </Grid> */}
         </Container>
-
-        <Segment
-          basic
-          style={{
-            padding: '1em 0em', width: '80%', margin: '0 auto',
-          }}
-        >
-          <ReactEcharts
-            className="pie-charts"
-            option={this.pieOption(activeDatas)}
-            style={{ height: 300, marginBottom: 20 }}
-            theme="theme_name"
-          />
-        </Segment>
 
         <Segment basic style={{ padding: '1em 0em' }}>
           <Container textAlign="right" >

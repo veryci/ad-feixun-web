@@ -104,27 +104,30 @@ class OnLine extends React.Component {
       <React.Fragment>
 
         <Container style={{ marginTop: '7em' }}>
+
+          <Segment basic style={{ padding: '1em 0em', width: '80%', margin: '0 auto' }}>
+            <ReactEcharts
+              className="pie-charts"
+              option={this.pieOption(this.state.onlineData)}
+              style={{ height: 300, marginBottom: 20 }}
+              theme="theme_name"
+            />
+          </Segment>
+
           <Table celled>
             <Table.Body>
               {this.renderTable(this.state.onlineData)}
             </Table.Body>
           </Table>
+
+          <Segment basic style={{ padding: '1em 0em' }}>
+            <Container textAlign="right" >
+              {`version:${REACT_APP_VERSION}（目前使用假数据）`}
+            </Container>
+          </Segment>
+
         </Container>
 
-        <Segment basic style={{ padding: '1em 0em', width: '80%', margin: '0 auto' }}>
-          <ReactEcharts
-            className="pie-charts"
-            option={this.pieOption(this.state.onlineData)}
-            style={{ height: 300, marginBottom: 20 }}
-            theme="theme_name"
-          />
-        </Segment>
-
-        <Segment basic style={{ padding: '1em 0em' }}>
-          <Container textAlign="right" >
-            {`version:${REACT_APP_VERSION}（目前使用假数据）`}
-          </Container>
-        </Segment>
       </React.Fragment>
     );
   }
@@ -133,7 +136,7 @@ class OnLine extends React.Component {
 
 OnLine.propTypes = {
   onlineData: PropTypes.object.isRequired,
-  onlineDataAction: PropTypes.func.isRequired,
+  // onlineDataAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
