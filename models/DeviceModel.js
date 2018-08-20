@@ -24,7 +24,8 @@ exports.save = async (dt, obj) => {
 "WithStatement", "BinaryExpression[operator='in']"] */
 exports.search = async (startTime, endTime) => {
   // let rows = await DeviceModel.find({ date: { $gte: '2019-02-16', $lte: endTime } });
-  let rows = await DeviceModel.find().limit(1);
+  let rows = await DeviceModel.find().sort({ date: '-1' }).limit(1);
+  console.log(rows, '========');
 
 
   if (rows.length === 0) {
