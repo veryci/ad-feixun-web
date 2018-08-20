@@ -22,11 +22,11 @@
         "missCount": "missCount",
         "viewCount": "viewCount",
         "uuserCount": "uuserCount",
-        "device":"device"
+        "device": "device"
       }
     }
   },
-  "logs":{
+  "logs": {
     "appenders": {
       "errorLogger": {
         "type": "dateFile",
@@ -42,9 +42,20 @@
       }
     },
     "categories": {
-      "err": { "appenders": ["errorLogger"], "level": "error" },
-      "default": { "appenders": ["resLogger"], "level": "info" }
+      "err": {
+        "appenders": [
+          "errorLogger"
+        ],
+        "level": "error"
+      },
+      "default": {
+        "appenders": [
+          "resLogger"
+        ],
+        "level": "info"
+      }
     }
-  },   
-  "analyzeUrl":"http://54.223.17.15:3034/v1"
+  },
+  "analyzeUrl": "http://54.223.17.15:3034/v1",
+  "routerLiveUrl": "http://c.so9.cc:8082/routerlive/feixun"
 }

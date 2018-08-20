@@ -9,6 +9,7 @@ import {
   // Radio,
   Table,
 } from 'semantic-ui-react';
+import { onlineDataAction } from '../actions/online';
 
 const { REACT_APP_VERSION } = process.env;
 
@@ -16,19 +17,17 @@ class OnLine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      onLineData: {
-        k1: 100,
-        k2: 90,
-        k3: 80,
+      onlineData: {
       },
     };
   }
   componentDidMount() {
+    this.props.onlineDataAction();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      onLineData: nextProps.onLineData,
+      onlineData: nextProps.onlineData,
     });
   }
 
@@ -105,7 +104,7 @@ class OnLine extends React.Component {
         <Container style={{ marginTop: '7em' }}>
           <Table celled>
             <Table.Body>
-              {this.renderTable(this.state.onLineData)}
+              {this.renderTable(this.state.onlineData)}
             </Table.Body>
           </Table>
         </Container>
@@ -113,7 +112,7 @@ class OnLine extends React.Component {
         <Segment basic style={{ padding: '1em 0em', width: '80%', margin: '0 auto' }}>
           <ReactEcharts
             className="pie-charts"
-            option={this.pieOption(this.state.onLineData)}
+            option={this.pieOption(this.state.onlineData)}
             style={{ height: 300, marginBottom: 20 }}
             theme="theme_name"
           />
@@ -131,12 +130,14 @@ class OnLine extends React.Component {
 
 
 OnLine.propTypes = {
-  onLineData: PropTypes.object.isRequired,
+  onlineData: PropTypes.object.isRequired,
+  onlineDataAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  onLineData: state.onLineData,
+  onlineData: state.onlineData && state.onlineData.datas,
 });
 
 export default connect(mapStateToProps, {
+  onlineDataAction,
 })(OnLine);

@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const Device = require('../schema/Device');
 const config = require('config');
+const request = require('superagent');
 
 const { dbCollection } = config.get('mongodb.flow');
+const routerLiveUrl = config.get('routerLiveUrl');
 
 const deviceSchema = new mongoose.Schema(Device);
 
@@ -56,5 +58,17 @@ exports.search = async (startTime, endTime) => {
     }
   });
 
+  return data;
+};
+
+exports.getOnlineData = async (time) => {
+  let data = {};
+  try {
+    const result = await request.get(`${routerLiveUrl}/?d=${time}`);
+    data = JSON.parse(result.text);
+  } catch (err) {
+    console.log(err);
+    data = 'get error';
+  }
   return data;
 };

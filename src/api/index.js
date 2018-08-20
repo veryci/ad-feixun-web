@@ -2,7 +2,7 @@
 import 'whatwg-fetch';
 import users from './users';
 import * as dashboard from './dashboard';
-import * as online from './online';
+import onlineData from './online';
 import * as dailyActive from './daliyActive';
 
 
@@ -20,8 +20,8 @@ const fetchData = () => fetch('/api/data', {
 export default {
   initAuth,
   fetchData,
+  onlineData,
   ...users,
   ...dashboard,
-  ...online,
   ...dailyActive,
 };

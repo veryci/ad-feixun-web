@@ -162,4 +162,12 @@ router.post('/active', async (ctx) => {
   ctx.body = { data };
 });
 
+router.get('/online', async (ctx) => {
+  const time = moment(new Date()).format('YYYYMMDD');
+
+  const data = await DeviceModel.getOnlineData(time);
+
+  ctx.body = data;
+});
+
 module.exports = router;
