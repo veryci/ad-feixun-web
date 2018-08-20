@@ -41,5 +41,3 @@ setInterval(async () => {
   await getDb();
 }, tms);
 
-getDb();
-
