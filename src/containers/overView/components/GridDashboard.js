@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Container, Segment, Grid, Header } from 'semantic-ui-react';
 
 const DatePicker = (datas) => {
@@ -20,8 +19,8 @@ const DatePicker = (datas) => {
                 </Header.Subheader>
               </Header>
               <Segment.Group>
-                <Segment color="blue">今天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
-                <Segment>十天内<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment color="blue">今天<p style={countStyle}>{flow && flow.today.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment>{flow ? flow.chart.length : 0}天内<p style={countStyle}>{flow && flow.totalNum.toLocaleString('zh-Hans-CN')}</p></Segment>
               </Segment.Group>
             </Grid.Column>
             <Grid.Column>
@@ -32,8 +31,8 @@ const DatePicker = (datas) => {
                 </Header.Subheader>
               </Header>
               <Segment.Group>
-                <Segment color="green">今天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
-                <Segment>十天内<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment color="green">今天<p style={countStyle}>{active && active.today.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment>{flow ? flow.chart.length : 0}天内<p style={countStyle}>{active && active.totalNum.toLocaleString('zh-Hans-CN')}</p></Segment>
               </Segment.Group>
             </Grid.Column>
             <Grid.Column>
@@ -44,8 +43,8 @@ const DatePicker = (datas) => {
                 </Header.Subheader>
               </Header>
               <Segment.Group>
-                <Segment color="orange">今天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
-                <Segment>十天内<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment color="orange">今天<p style={countStyle}>{online && online.today.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment>{flow ? flow.chart.length : 0}天内<p style={countStyle}>{online && online.totalNum.toLocaleString('zh-Hans-CN')}</p></Segment>
               </Segment.Group>
             </Grid.Column>
           </Grid.Row>
@@ -53,10 +52,6 @@ const DatePicker = (datas) => {
       </Container>
     </Fragment>
   );
-};
-
-DatePicker.propTypes = {
-  datas: PropTypes.object.isRequired,
 };
 
 export default connect(({ dailyActive: { datas } }) => ({
