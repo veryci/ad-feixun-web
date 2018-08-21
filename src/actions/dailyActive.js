@@ -7,11 +7,11 @@ export function dailyDataAction(obj) {
     try {
       const response = await api.dailyActive(obj);
       if (response.status === 200) {
-        const res = await response.json();
+        const body = await response.json();
         return dispatch({
           type: DAILY_ACTIVE,
           dailyActiveData: {
-            datas: res.data,
+            datas: body,
             errMsg: '',
           },
         });

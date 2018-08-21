@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Container, Segment, Grid, Header } from 'semantic-ui-react';
 
-const DatePicker = (datas) => {
+const DatePicker = ({ datas }) => {
   const countStyle = { fontSize: '2em' };
   const { flow, active, online } = datas;
   return (
@@ -53,6 +54,13 @@ const DatePicker = (datas) => {
   );
 };
 
-export default connect(({ dailyActive: { datas } }) => ({
-  datas,
-}))(DatePicker);
+DatePicker.propTypes = {
+  datas: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+  datas: state.dailyActive.datas,
+});
+
+
+export default connect(mapStateToProps)(DatePicker);

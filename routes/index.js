@@ -24,7 +24,9 @@ router.get('/', async (ctx) => {
  * endTime: string
  */
 router.get('/overview', async (ctx) => {
-  const { startTime, endTime } = ctx.query;
+  let { startTime, endTime } = ctx.query;
+  startTime = startTime === '0' ? new Date() : startTime;
+  endTime = endTime === '0' ? new Date() : endTime;
   if (!moment(endTime).isValid() || !moment(startTime).isValid()) {
     ctx.status = 400;
     ctx.body = {
