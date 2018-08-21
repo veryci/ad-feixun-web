@@ -2,10 +2,10 @@ import api from '../api';
 
 export const DAILY_ACTIVE = 'DAILY_ACTIVE';
 
-export function dailyDataAction() {
+export function dailyDataAction(obj) {
   return async (dispatch) => {
     try {
-      const response = await api.dailyActive();
+      const response = await api.dailyActive(obj);
       if (response.status === 200) {
         const res = await response.json();
         return dispatch({

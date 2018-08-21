@@ -1,58 +1,42 @@
 import React from 'react';
-import { Grid, Container } from 'semantic-ui-react';
-import moment from 'moment';
-import { DatePicker } from 'antd';
-import DailyActive from './components/DailyActive';
-import OnLine from './components/OnLine';
+import { connect } from 'react-redux';
+import { Container } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import DatePicker from './components/DatePicker';
+import GridDashboard from './components/GridDashboard';
+import Chart from './components/Chart';
+import { dailyDataAction } from '../../actions/dailyActive';
 import './components/overView.css';
 
-const { RangePicker } = DatePicker;
-
 class OverView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      startTime: moment().subtract(2, 'day').toDate(),
-      endTime: moment().toDate(),
-    };
+  constructor() {
+    super();
+    this.changeTime = this.changeTime.bind(this);
   }
-
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(dailyDataAction());
   }
-
-  changeDate = () => {
-
+  changeTime(startTime, endTime) {
+    const { dispatch } = this.props;
+    dispatch(dailyDataAction({ startTime, endTime }));
   }
-
   render() {
     return (
       <React.Fragment>
-
-        <Container style={{ paddingTop: '5em', paddingBottom: '1em' }}>
-          <RangePicker onChange={this.changeDate} />
+        <Container style={{ marginTop: '7em' }}>
+          <DatePicker changeTime={this.changeTime} />
+          <GridDashboard />
+          <Chart />
         </Container>
-
-        <Container>
-          <Grid>
-            <Grid.Row>
-              <Grid.Column width={8}>
-                <DailyActive
-                  startTime={this.state.startTime}
-                />
-              </Grid.Column>
-              <Grid.Column width={8}>
-                <OnLine
-                  endTime={this.state.endTime}
-                />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Container>
-
-      </React.Fragment >
+      </React.Fragment>
     );
   }
 }
 
-export default OverView;
+OverView.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect()(OverView);
 
