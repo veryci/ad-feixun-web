@@ -1,24 +1,25 @@
 import React from 'react';
-import moment from 'moment';
+import { connect } from 'react-redux';
 import { Container } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 import DatePicker from './components/DatePicker';
 import GridDashboard from './components/GridDashboard';
 import Chart from './components/Chart';
+import { dailyDataAction } from '../../actions/dailyActive';
 import './components/overView.css';
 
 class OverView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      startTime: moment().subtract(2, 'day').toDate(),
-      endTime: moment().toDate(),
-    };
+  constructor() {
+    super();
     this.changeTime = this.changeTime.bind(this);
   }
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(dailyDataAction());
   }
   changeTime(startTime, endTime) {
-
+    const { dispatch } = this.props;
+    dispatch(dailyDataAction({ startTime, endTime }));
   }
   render() {
     return (
@@ -33,5 +34,9 @@ class OverView extends React.Component {
   }
 }
 
-export default OverView;
+OverView.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect()(OverView);
 

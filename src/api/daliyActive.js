@@ -1,8 +1,5 @@
 import 'whatwg-fetch';
 
-const dailyActive = () => fetch('/api/active', {
-  method: 'POST',
-  credentials: 'same-origin',
-});
+const dailyActive = ({ a, b }) => fetch(`/overview?startTime=${a}&endTime=${b}`);
 
 export default dailyActive;
