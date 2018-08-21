@@ -1,4 +1,6 @@
 {
+  "//during": "默认时间长度 天",
+  "during": 10,
   "server": {
     "port": 4040
   },
