@@ -18,17 +18,20 @@ class OverView extends React.Component {
   componentDidMount() {
   }
 
-  changeDate = () => {
-
-  }
 
   render() {
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
           <DatePicker />
-          <GridDashboard />
-          <Chart />
+          <GridDashboard
+            startTime={this.state.startTime}
+            endTime={this.state.endTime}
+          />
+          <Chart
+            startTime={this.state.startTime}
+            endTime={this.state.endTime}
+          />
         </Container>
       </React.Fragment >
     );
