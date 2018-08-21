@@ -1,0 +1,7 @@
+{
+  "transmit": {
+    "routerLive": {
+      "intervalTime": 1
+    }
+  }
+}

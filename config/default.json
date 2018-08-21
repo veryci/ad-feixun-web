@@ -3,7 +3,7 @@
     "port": 4040
   },
   "mongodb": {
-    "flow": {
+    "feixunDB": {
       "dbUrl": "mongodb://localhost:27017/",
       "dbUser": "",
       "dbPassword": "",
@@ -47,7 +47,8 @@
   "transmit": {
     "routerLive": {
       "transmitUrl": "http://c.so9.cc:8082/routerlive/feixun/",
-      "intervalTime": 600000
+      "//intervalTime": "单位：分钟",
+      "intervalTime": 10
     }
   }
 }
