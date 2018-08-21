@@ -60,7 +60,7 @@ router.get('/overview', async (ctx) => {
     totalNum: 3432,
     chart: [],
   };
-  for (let index = 0; index < range; index += 1) {
+  for (let index = range; index > 0; index -= 1) {
     const date = today.clone().subtract(index, 'day').toDate();
     const flowChartItem = {
       date,
