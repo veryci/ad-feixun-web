@@ -13,27 +13,22 @@ class OverView extends React.Component {
       startTime: moment().subtract(2, 'day').toDate(),
       endTime: moment().toDate(),
     };
+    this.changeTime = this.changeTime.bind(this);
   }
-
   componentDidMount() {
   }
+  changeTime(startTime, endTime) {
 
-
+  }
   render() {
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
-          <DatePicker />
-          <GridDashboard
-            startTime={this.state.startTime}
-            endTime={this.state.endTime}
-          />
-          <Chart
-            startTime={this.state.startTime}
-            endTime={this.state.endTime}
-          />
+          <DatePicker changeTime={this.changeTime} />
+          <GridDashboard />
+          <Chart />
         </Container>
-      </React.Fragment >
+      </React.Fragment>
     );
   }
 }
