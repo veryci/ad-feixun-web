@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { Route } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import Loadable from 'react-loadable';
+import 'antd/dist/antd.css';
 import { store, history } from './store';
 import './App.css';
 import Header from './containers/Header';

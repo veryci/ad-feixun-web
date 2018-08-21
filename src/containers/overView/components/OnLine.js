@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactEcharts from 'echarts-for-react';
-import { Container, Segment, Table } from 'semantic-ui-react';
+import { Container, Segment, Table, Header } from 'semantic-ui-react';
 import { onlineDataAction } from '../../../actions/online';
 
 class OnLine extends React.Component {
@@ -13,6 +13,7 @@ class OnLine extends React.Component {
     };
   }
   componentDidMount() {
+    console.log(this.props.startTime, this.props.endTime, '???????????????????');
     this.props.onlineDataAction();
   }
 
@@ -88,27 +89,37 @@ class OnLine extends React.Component {
     return tableCell;
   }
 
+  renderDate = () => (
+    <Segment attached>
+      <h3>2018-08-20</h3>
+      <Segment basic style={{ padding: '1em 0em', width: '80%', margin: '0 auto' }}>
+        <ReactEcharts
+          className="pie-charts"
+          option={this.pieOption(this.state.onlineData)}
+          style={{ height: 300, marginBottom: 20 }}
+          theme="theme_name"
+        />
+      </Segment>
+
+      <Table celled>
+        <Table.Body>
+          {this.renderTable(this.state.onlineData)}
+        </Table.Body>
+      </Table>
+    </Segment>
+  )
+
   render() {
     return (
       <React.Fragment>
 
-        <Container style={{ marginTop: '7em' }}>
+        <Container>
 
-          <h3>2018-08-20</h3>
-          <Segment basic style={{ padding: '1em 0em', width: '80%', margin: '0 auto' }}>
-            <ReactEcharts
-              className="pie-charts"
-              option={this.pieOption(this.state.onlineData)}
-              style={{ height: 300, marginBottom: 20 }}
-              theme="theme_name"
-            />
-          </Segment>
+          <Header as="h3" attached="top">
+            在线数
+          </Header>
 
-          <Table celled>
-            <Table.Body>
-              {this.renderTable(this.state.onlineData)}
-            </Table.Body>
-          </Table>
+          {this.renderDate()}
 
         </Container>
 
@@ -120,6 +131,8 @@ class OnLine extends React.Component {
 OnLine.propTypes = {
   onlineData: PropTypes.object.isRequired,
   onlineDataAction: PropTypes.func.isRequired,
+  startTime: PropTypes.any.isRequired,
+  endTime: PropTypes.any.isRequired,
 };
 
 const mapStateToProps = state => ({
