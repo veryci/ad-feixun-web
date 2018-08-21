@@ -1,7 +1,10 @@
 const router = require('koa-router')({ prefix: '/api' });
 const moment = require('moment');
 const DeviceModel = require('../models/DeviceModel');
-const OnlineModel = require('../models/onlineModel');
+
+require('moment-timezone');
+
+moment.tz.setDefault('Asia/Shanghai');
 
 router.get('/', async (ctx) => {
   ctx.body = {
@@ -9,21 +12,33 @@ router.get('/', async (ctx) => {
   };
 });
 
-router.post('/active', async (ctx) => {
-  const startTime = moment().subtract(2, 'day').startOf('day').toDate();
-  const endTime = moment().endOf('day').toDate();
+/**
+ * 获取首页数据
+ * GET
+ * query
+ * startTime: string (YYYY-MM-DD)
+ * endTime: string
+ */
+router.get('/overview', async (ctx) => {
+  const { startTime, endTime } = ctx.query;
+  if (!moment(endTime).isValid() || !moment(startTime).isValid()) {
+    ctx.status = 400;
+    ctx.body = {
+      msg: 'inValid params',
+    };
+    return;
+  }
+  const end = moment(endTime).endOf('day').toDate();
+  const start = startTime ?
+    moment(startTime).startOf('day').toDate() :
+    moment(end).subtract(10, 'day').startOf('day').toDate();
 
-  const data = await DeviceModel.search(startTime, endTime);
+  console.log(start, end);
+  // const data = await DeviceModel.search(start, end);
 
-  ctx.body = { data };
+  // data
+  ctx.body = { };
 });
 
-router.get('/online', async (ctx) => {
-  const time = moment(new Date()).format('YYYYMMDD');
-
-  const data = await OnlineModel.getOnlineData(time);
-
-  ctx.body = data;
-});
 
 module.exports = router;

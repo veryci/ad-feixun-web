@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Device = require('../schema/Device');
 const config = require('config');
 
-const { dbCollection } = config.get('mongodb.flow');
+const { dbCollection } = config.get('mongodb.feixunDB');
 
 const deviceSchema = new mongoose.Schema(Device);
 
@@ -10,9 +10,9 @@ const DeviceModel = mongoose.model(dbCollection.device, deviceSchema, dbCollecti
 
 exports.DeviceModel = DeviceModel;
 
-exports.save = async (dt, obj) => {
+exports.save = async (obj) => {
   let rows = null;
-  rows = await DeviceModel.findOneAndUpdate({ date: dt }, { $set: obj }, { new: true });
+  rows = await DeviceModel.findOneAndUpdate({ date: obj.date }, { $set: obj }, { new: true });
 
   if (rows === null) {
     rows = await DeviceModel.create(obj);
@@ -21,23 +21,9 @@ exports.save = async (dt, obj) => {
 };
 
 exports.search = async (startTime, endTime) => {
-  let data = await DeviceModel.find({ date: { $gte: startTime, $lte: endTime } }).sort({ date: '-1' });
-  if (data.length === 0) {
-    data = [{
-      info: {
-        k1: 300,
-        k2: 200,
-        k3: 500,
-      },
-    }, {
-      info: {
-        k1: 240,
-        k2: 320,
-        k3: 510,
-      },
-    }];
-  }
-
+  const data = await DeviceModel.find({
+    date: { $gte: startTime, $lte: endTime },
+  }).sort({ date: '-1' });
   return data;
 };
 

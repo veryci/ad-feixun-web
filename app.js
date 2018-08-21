@@ -1,41 +1,20 @@
 const Koa = require('koa');
-const Router = require('koa-router');
-const convert = require('koa-convert');
-const json = require('koa-json');
-const bodyparser = require('koa-bodyparser')();
+const bodyparser = require('koa-bodyparser');
 const config = require('config');
 const session = require('koa-session');
 const logger = require('koa-logger');
 const compress = require('koa-compress');
 const { Z_SYNC_FLUSH } = require('zlib');
-require('./utils/routerLiveTask');
+
+const index = require('./routes/index');
+const { name, version } = require('./package.json');
 
 require('./models/database');
-const index = require('./routes/index');
-
-const { name, version } = require('./package.json');
+require('./utils/routerLiveTask');
 
 const PORT = config.get('server.port');
 
-// let indexHTML = '';
-// const readFile = util.promisify(fs.readFile);
-
 const app = new Koa();
-const router = new Router();
-
-// middlewares
-if (process.env.NODE_ENV === 'dev') {
-  app.use(logger());
-}
-
-app.use(compress({
-  filter: contentType => /text|javascript/i.test(contentType),
-  threshold: 2048,
-  flush: Z_SYNC_FLUSH,
-}));
-app.use(convert(bodyparser));
-app.use(convert(json()));
-
 
 app.keys = ['some secret hurr'];
 
@@ -55,29 +34,29 @@ app.use(session(CONFIG, app));
 
 // logger
 app.use(async (ctx, next) => {
-  // const start = new Date();
+  const { path } = ctx;
+  if (path === '/version') {
+    ctx.body = `${name}: ${version}`;
+    return;
+  }
   try {
     await next();
-    // const { status } = ctx;
-    // if (status === 404) {
-    //   if (!indexHTML) indexHTML = await readFile(`${__dirname}/build/index.html`, 'utf-8');
-    //   ctx.body = indexHTML;
-    // } else {
-    //   ctx.body = indexHTML;
-    // }
   } catch (error) {
-    // 记录异常日志
-    console.error(error);
     ctx.throw(error);
   }
 });
 
-router.get('/version', (ctx) => {
-  ctx.body = `${name}: ${version}`;
-});
+// middlewares
+if (process.env.NODE_ENV === 'dev') {
+  app.use(logger());
+}
 
-// router.use('/docdoc.routes(), doc.allowedMethods());
-app.use(router.routes()).use(router.allowedMethods());
+app.use(compress({
+  filter: contentType => /text|javascript/i.test(contentType),
+  threshold: 2048,
+  flush: Z_SYNC_FLUSH,
+}));
+app.use(bodyparser());
 
 // api
 app.use(index.routes(), index.allowedMethods());
