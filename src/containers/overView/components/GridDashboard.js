@@ -19,7 +19,7 @@ const DatePicker = (datas) => {
                 </Header.Subheader>
               </Header>
               <Segment.Group>
-                <Segment color="blue">今天<p style={countStyle}>{flow.today.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment color="blue">今天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
                 <Segment>十天内<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
               </Segment.Group>
             </Grid.Column>
