@@ -35,7 +35,12 @@ class Chart extends React.Component {
     this.state = {
     };
   }
+
   componentDidMount() {
+
+  }
+
+  componentWillReceiveProps(nextProps) {
 
   }
 
