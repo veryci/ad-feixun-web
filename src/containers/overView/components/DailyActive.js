@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import ReactEcharts from 'echarts-for-react';
 import { Container, Segment, Table } from 'semantic-ui-react';
 import moment from 'moment';
-import { dailyDataAction } from '../actions/dailyActive';
+import { dailyDataAction } from '../../../actions/dailyActive';
 
 class DailyActive extends React.Component {
   constructor(props) {
