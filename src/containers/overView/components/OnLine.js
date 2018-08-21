@@ -2,25 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactEcharts from 'echarts-for-react';
-import { Container, Segment, Table } from 'semantic-ui-react';
-import moment from 'moment';
-import { dailyDataAction } from '../actions/dailyActive';
+import { Container, Segment, Table, Header } from 'semantic-ui-react';
+import { onlineDataAction } from '../../../actions/online';
 
-class DailyActive extends React.Component {
+class OnLine extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dailyActive: [],
+      onlineData: {},
     };
   }
-
   componentDidMount() {
-    this.props.dailyDataAction();
+    console.log(this.props.startTime, this.props.endTime, '???????????????????');
+    this.props.onlineDataAction();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      dailyActive: nextProps.dailyActive,
+      onlineData: nextProps.onlineData,
     });
   }
 
@@ -75,28 +74,6 @@ class DailyActive extends React.Component {
     return option;
   }
 
-  renderDate = () => {
-    const list = this.state.dailyActive.map(item => (
-      <div style={{ marginBottom: 20 }} key={item._id}>
-        <h3>{moment(item.date).format('YYYY-MM-DD')}</h3>
-        <Segment basic style={{ padding: '1em 0em', width: '80%', margin: '0 auto' }}>
-          <ReactEcharts
-            className="pie-charts"
-            option={this.pieOption(item.info)}
-            style={{ height: 300, marginBottom: 20 }}
-            theme="theme_name"
-          />
-        </Segment>
-        <Table celled>
-          <Table.Body>
-            {this.renderTable(item.info)}
-          </Table.Body>
-        </Table>
-      </div>
-    ));
-    return list;
-  }
-
   renderTable = (datas) => {
     const keyArr = Object.keys(datas);
     const tableCell = keyArr.map(item => (
@@ -112,27 +89,56 @@ class DailyActive extends React.Component {
     return tableCell;
   }
 
+  renderDate = () => (
+    <Segment attached>
+      <h3>2018-08-20</h3>
+      <Segment basic style={{ padding: '1em 0em', width: '80%', margin: '0 auto' }}>
+        <ReactEcharts
+          className="pie-charts"
+          option={this.pieOption(this.state.onlineData)}
+          style={{ height: 300, marginBottom: 20 }}
+          theme="theme_name"
+        />
+      </Segment>
+
+      <Table celled>
+        <Table.Body>
+          {this.renderTable(this.state.onlineData)}
+        </Table.Body>
+      </Table>
+    </Segment>
+  )
+
   render() {
     return (
       <React.Fragment>
-        <Container style={{ marginTop: '7em' }}>
+
+        <Container>
+
+          <Header as="h3" attached="top">
+            在线数
+          </Header>
+
           {this.renderDate()}
+
         </Container>
+
       </React.Fragment>
     );
   }
 }
 
-
-DailyActive.propTypes = {
-  dailyActive: PropTypes.array.isRequired,
-  dailyDataAction: PropTypes.func.isRequired,
+OnLine.propTypes = {
+  onlineData: PropTypes.object.isRequired,
+  onlineDataAction: PropTypes.func.isRequired,
+  startTime: PropTypes.any.isRequired,
+  endTime: PropTypes.any.isRequired,
 };
 
 const mapStateToProps = state => ({
-  dailyActive: state.dailyActive.datas,
+  onlineData: state.onlineData && state.onlineData.datas,
 });
 
 export default connect(mapStateToProps, {
-  dailyDataAction,
-})(DailyActive);
+  onlineDataAction,
+})(OnLine);
