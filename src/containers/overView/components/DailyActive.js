@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactEcharts from 'echarts-for-react';
-import { Container, Segment, Table } from 'semantic-ui-react';
+import { Container, Segment, Table, Header } from 'semantic-ui-react';
 import moment from 'moment';
 import { dailyDataAction } from '../../../actions/dailyActive';
 
@@ -115,8 +115,13 @@ class DailyActive extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Container style={{ marginTop: '7em' }}>
-          {this.renderDate()}
+        <Container>
+          <Header as="h3" attached="top">
+            日活数
+          </Header>
+          <Segment attached>
+            {this.renderDate()}
+          </Segment>
         </Container>
       </React.Fragment>
     );
