@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
-import { Container } from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
 import { overViewChartLengend } from '../../../lib/mapData';
 
 const apiData = {
@@ -51,6 +51,7 @@ class Chart extends React.Component {
       return ele;
     });
     const option = {
+      color: ['#2185d0', '#21ba45', '#f2711c'],
       xAxis: {
         data: dateArr,
         boundaryGap: false,
@@ -79,7 +80,7 @@ class Chart extends React.Component {
     return (
       <React.Fragment>
 
-        <Container>
+        <Segment>
 
           <ReactEcharts
             className="pie-charts"
@@ -88,7 +89,7 @@ class Chart extends React.Component {
             theme="theme_name"
           />
 
-        </Container>
+        </Segment>
 
       </React.Fragment>
     );
