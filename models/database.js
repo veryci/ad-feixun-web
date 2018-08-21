@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 const config = require('config');
 const { format } = require('util');
 
-const flowDB = config.get('mongodb.flow');
+const DB = config.get('mongodb.feixunDB');
 const {
   dbUrl,
   dbUser,
   dbPassword,
   dbName,
-} = flowDB;
+} = DB;
 
 
 let mongoUrl = '';
@@ -21,7 +21,9 @@ if (user && password) {
   mongoUrl = `${dbUrl}${dbName}`;
 }
 
-mongoose.connect(mongoUrl);
+mongoose.connect(mongoUrl, {
+  useNewUrlParser: true,
+});
 
 const db = mongoose.connection;
 db.on('error', (error) => {
