@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { overViewChartLengend } from '../../../lib/mapData';
@@ -11,12 +11,7 @@ const apiData = {
   online: [],
 };
 
-const dateArr = [];
-for (let i = 1; i <= 15; i++) {
-  dateArr.push(`8/${i}`);
-}
-
-for (let i = 1; i <= 15; i++) {
+for (let i = 1; i <= 100; i++) {
   const item = {
     date: `8/${i}`,
     num: Math.ceil(Math.random() * 300),
@@ -24,7 +19,7 @@ for (let i = 1; i <= 15; i++) {
   apiData.flow.push(item);
 }
 
-for (let i = 1; i <= 15; i++) {
+for (let i = 1; i <= 100; i++) {
   const item = {
     date: `8/${i}`,
     num: Math.ceil(Math.random() * 300),
@@ -32,7 +27,7 @@ for (let i = 1; i <= 15; i++) {
   apiData.active.push(item);
 }
 
-for (let i = 1; i <= 15; i++) {
+for (let i = 1; i <= 100; i++) {
   const item = {
     date: `8/${i}`,
     num: Math.ceil(Math.random() * 300),
@@ -44,45 +39,42 @@ class Chart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      multiLineData: {},
     };
   }
 
   componentDidMount() {
-    // this.getData(this.props.startTime, this.props.endTime);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps.startTime, nextProps.endTime, 6666666);
-  // }
+  componentWillReceiveProps(nextProps) {
+  }
 
   getData = () => {
 
   }
 
   multiLineOption = () => {
+    // let apiData = this.state.multiLineData.chart|| [];
     const lineKeyArr = Object.keys(apiData);
     const newData = {};
+    let xaxis = [];
     lineKeyArr.map((item) => {
-      newData[item] = [];
-      apiData[item].map((ele) => {
-        newData[item].push(ele.num);
-        return true;
-      });
-      return true;
+      newData[item] = apiData[item].map(ele => ele.num);
+      return newData[item];
     });
+    if (apiData[lineKeyArr[0]]) {
+      xaxis = apiData[lineKeyArr[0]].map(item => item.date);
+    }
     const legendData = lineKeyArr.map(item => (overViewChartLengend[item]));
-    const seriesData = lineKeyArr.map((item) => {
-      const ele = {
-        name: overViewChartLengend[item],
-        type: 'line',
-        data: newData[item],
-      };
-      return ele;
-    });
+    const seriesData = lineKeyArr.map(item => ({
+      name: overViewChartLengend[item],
+      type: 'line',
+      data: newData[item],
+    }));
     const option = {
       color: ['#2185d0', '#21ba45', '#f2711c'],
       xAxis: {
-        data: dateArr,
+        data: xaxis,
         boundaryGap: false,
       },
       yAxis: {
@@ -128,10 +120,11 @@ class Chart extends React.Component {
 Chart.propTypes = {
   // startTime: PropTypes.any.isRequired,
   // endTime: PropTypes.any.isRequired,
+  multiLineData: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  multiLineData: state.multiLineData || [],
+  multiLineData: state.dailyActive.datas || {},
 });
 
 export default connect(mapStateToProps, {})(Chart);
