@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Container } from 'semantic-ui-react';
 import DatePicker from './components/DatePicker';
 import GridDashboard from './components/GridDashboard';
+import Chart from './components/Chart';
 import './components/overView.css';
 
 class OverView extends React.Component {
@@ -27,8 +28,9 @@ class OverView extends React.Component {
         <Container style={{ marginTop: '7em' }}>
           <DatePicker />
           <GridDashboard />
+          <Chart />
         </Container>
-      </React.Fragment>
+      </React.Fragment >
     );
   }
 }

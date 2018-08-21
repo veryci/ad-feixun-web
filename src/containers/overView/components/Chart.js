@@ -84,7 +84,7 @@ class Chart extends React.Component {
           <ReactEcharts
             className="pie-charts"
             option={this.multiLineOption()}
-            style={{ height: 500, marginBottom: 20 }}
+            style={{ height: 500, marginBottom: 20, marginTop: 20 }}
             theme="theme_name"
           />
 
