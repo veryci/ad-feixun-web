@@ -1,7 +1,7 @@
 import { DAILY_ACTIVE } from '../actions/dailyActive';
 
 const dailyActive = (state = {
-  datas: [],
+  datas: {},
   errMsg: '',
 }, action) => {
   if (action.type === DAILY_ACTIVE) {
