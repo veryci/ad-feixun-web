@@ -25,7 +25,7 @@ class DatePicker extends Component {
                 </Header>
                 <Segment.Group>
                   <Segment color="blue">今天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
-                  <Segment>昨天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
+                  <Segment>十天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
                 </Segment.Group>
               </Grid.Column>
               <Grid.Column>
@@ -37,7 +37,7 @@ class DatePicker extends Component {
                 </Header>
                 <Segment.Group>
                   <Segment color="green">今天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
-                  <Segment>昨天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
+                  <Segment>十天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
                 </Segment.Group>
               </Grid.Column>
               <Grid.Column>
@@ -49,7 +49,7 @@ class DatePicker extends Component {
                 </Header>
                 <Segment.Group>
                   <Segment color="orange">今天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
-                  <Segment>昨天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
+                  <Segment>十天<p style={countStyle}>{num.toLocaleString('zh-Hans-CN')}</p></Segment>
                 </Segment.Group>
               </Grid.Column>
             </Grid.Row>

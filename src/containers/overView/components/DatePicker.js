@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { Input, Button } from 'semantic-ui-react';
 
 class DatePicker extends Component {
@@ -20,8 +21,9 @@ class DatePicker extends Component {
   }
   onSerch() {
     const { startTime, endTime } = this.state;
+    const { changeTime } = this.props;
     if (startTime && startTime <= endTime) {
-      console.log(startTime)
+      changeTime(startTime, endTime);
     } else {
       alert('请输入正确的查询日期');
     }
@@ -42,5 +44,9 @@ class DatePicker extends Component {
     );
   }
 }
+
+DatePicker.propTypes = {
+  changeTime: PropTypes.func.isRequired,
+};
 
 export default DatePicker;
