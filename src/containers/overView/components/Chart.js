@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
+// import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import { overViewChartLengend } from '../../../lib/mapData';
 
 const apiData = {
@@ -15,18 +17,27 @@ for (let i = 1; i <= 15; i++) {
 }
 
 for (let i = 1; i <= 15; i++) {
-  const random = Math.ceil(Math.random() * 300);
-  apiData.flow.push(random);
+  const item = {
+    date: `8/${i}`,
+    num: Math.ceil(Math.random() * 300),
+  };
+  apiData.flow.push(item);
 }
 
 for (let i = 1; i <= 15; i++) {
-  const random = Math.ceil(Math.random() * 300);
-  apiData.active.push(random);
+  const item = {
+    date: `8/${i}`,
+    num: Math.ceil(Math.random() * 300),
+  };
+  apiData.active.push(item);
 }
 
 for (let i = 1; i <= 15; i++) {
-  const random = Math.ceil(Math.random() * 300);
-  apiData.online.push(random);
+  const item = {
+    date: `8/${i}`,
+    num: Math.ceil(Math.random() * 300),
+  };
+  apiData.online.push(item);
 }
 
 class Chart extends React.Component {
@@ -37,21 +48,34 @@ class Chart extends React.Component {
   }
 
   componentDidMount() {
-
+    // this.getData(this.props.startTime, this.props.endTime);
   }
 
-  componentWillReceiveProps(nextProps) {
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps.startTime, nextProps.endTime, 6666666);
+  // }
+
+  getData = () => {
 
   }
 
   multiLineOption = () => {
     const lineKeyArr = Object.keys(apiData);
+    const newData = {};
+    lineKeyArr.map((item) => {
+      newData[item] = [];
+      apiData[item].map((ele) => {
+        newData[item].push(ele.num);
+        return true;
+      });
+      return true;
+    });
     const legendData = lineKeyArr.map(item => (overViewChartLengend[item]));
     const seriesData = lineKeyArr.map((item) => {
       const ele = {
         name: overViewChartLengend[item],
         type: 'line',
-        data: apiData[item],
+        data: newData[item],
       };
       return ele;
     });
@@ -102,7 +126,12 @@ class Chart extends React.Component {
 }
 
 Chart.propTypes = {
+  // startTime: PropTypes.any.isRequired,
+  // endTime: PropTypes.any.isRequired,
 };
 
+const mapStateToProps = state => ({
+  multiLineData: state.multiLineData || [],
+});
 
-export default Chart;
+export default connect(mapStateToProps, {})(Chart);
