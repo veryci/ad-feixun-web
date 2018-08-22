@@ -19,32 +19,32 @@ const DatePicker = ({ datas }) => {
                 </Header.Subheader>
               </Header>
               <Segment.Group>
-                <Segment color="blue">今天<p style={countStyle}>{flow && flow.today.toLocaleString('zh-Hans-CN')}</p></Segment>
-                <Segment>{flow ? flow.chart.length : 0}天内<p style={countStyle}>{flow && flow.totalNum.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment color="blue">今天:<p style={countStyle}>{flow && flow.today.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment>该段时间内:<p style={countStyle}>{flow && flow.totalNum.toLocaleString('zh-Hans-CN')}</p></Segment>
               </Segment.Group>
             </Grid.Column>
             <Grid.Column>
               <Header as="h3">
                 日活
                 <Header.Subheader>
-                  单位（个）
+                  单位（台）
                 </Header.Subheader>
               </Header>
               <Segment.Group>
-                <Segment color="green">今天<p style={countStyle}>{active && active.today.toLocaleString('zh-Hans-CN')}</p></Segment>
-                <Segment>{flow ? flow.chart.length : 0}天内<p style={countStyle}>{active && active.totalNum.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment color="green">今天:<p style={countStyle}>{active && active.today.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment>该段时间内:<p style={countStyle}>{active && active.totalNum.toLocaleString('zh-Hans-CN')}</p></Segment>
               </Segment.Group>
             </Grid.Column>
             <Grid.Column>
               <Header as="h3">
                 在线
                 <Header.Subheader>
-                  单位（个）
+                  单位（台）
                 </Header.Subheader>
               </Header>
               <Segment.Group>
-                <Segment color="orange">今天<p style={countStyle}>{online && online.today.toLocaleString('zh-Hans-CN')}</p></Segment>
-                <Segment>{flow ? flow.chart.length : 0}天内<p style={countStyle}>{online && online.totalNum.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment color="orange">今天:<p style={countStyle}>{online && online.today.toLocaleString('zh-Hans-CN')}</p></Segment>
+                <Segment>该段时间内:<p style={countStyle}>{online && online.totalNum.toLocaleString('zh-Hans-CN')}</p></Segment>
               </Segment.Group>
             </Grid.Column>
           </Grid.Row>
