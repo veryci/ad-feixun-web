@@ -6,7 +6,6 @@ import DatePicker from './components/DatePicker';
 import GridDashboard from './components/GridDashboard';
 import Chart from './components/Chart';
 import { dailyDataAction } from '../../actions/dailyActive';
-import './components/overView.css';
 
 class OverView extends React.Component {
   constructor() {

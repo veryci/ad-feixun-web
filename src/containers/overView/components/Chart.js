@@ -56,6 +56,7 @@ class Chart extends React.Component {
     const seriesData = lineKeyArr.map(item => ({
       name: overViewChartLengend[item],
       type: 'line',
+      smooth: true,
       data: newData[item],
     }));
     const option = {
