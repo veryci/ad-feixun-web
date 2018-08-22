@@ -50,9 +50,7 @@ class Chart extends React.Component {
       return newData[item];
     });
     if (apiData[lineKeyArr[0]]) {
-      xaxis = apiData[lineKeyArr[0]].chart.map(item => new Date(item.date).getTime());
-      // xaxis.sort((a, b) => a - b);
-      xaxis = xaxis.map(item => moment(item).format('MM-DD'));
+      xaxis = apiData[lineKeyArr[0]].chart.map(item => moment(item.date).format('MM-DD'));
     }
     const legendData = lineKeyArr.map(item => (overViewChartLengend[item]));
     const seriesData = lineKeyArr.map(item => ({
