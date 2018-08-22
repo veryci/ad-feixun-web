@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'semantic-ui-react';
+import { Container, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import DatePicker from './components/DatePicker';
 import GridDashboard from './components/GridDashboard';

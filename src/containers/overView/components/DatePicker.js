@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Input, Button } from 'semantic-ui-react';
 
 class DatePicker extends Component {
   constructor() {
     super();
     this.state = {
-      startTime: '',
-      endTime: '',
+      startTime: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+      endTime: moment().format('YYYY-MM-DD'),
     };
     this.onChangeStart = this.onChangeStart.bind(this);
     this.onChangeEnd = this.onChangeEnd.bind(this);
@@ -39,6 +40,13 @@ class DatePicker extends Component {
           style={{ margin: '3px 0' }}
           primary
           onClick={this.onSerch}
+        />&nbsp;&nbsp;
+        <Button
+          as="a"
+          href={`/api/admin/export?type=1&startTime=${startTime}&endTime=${endTime}`}
+          content="导出Excel"
+          style={{ margin: '3px 0' }}
+          primary
         />
       </Fragment>
     );
