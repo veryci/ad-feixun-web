@@ -45,6 +45,10 @@ class Header extends React.Component {
             <Link to="/">总览</Link>
           </Menu.Item>
 
+          <Menu.Item as="span" active={pathname === '/region'}>
+            <Link to="/region">地域</Link>
+          </Menu.Item>
+
         </Container>
       </Menu>
     );
