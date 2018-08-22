@@ -39,7 +39,7 @@ router.get('/overviewexcel', async (ctx) => {
     ['日期', '流量', '日活', '在线'],
   ];
   for (let index = 0; index < range; index += 1) {
-    const date = moment(end).subtract(index).toDate();
+    const date = moment(end).subtract(index, 'day').toDate();
     const item = [
       date,
       Math.round(Math.random() * 10),
