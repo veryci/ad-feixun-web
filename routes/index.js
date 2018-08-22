@@ -1,6 +1,10 @@
 const router = require('koa-router')({ prefix: '/api' });
 const moment = require('moment');
 const config = require('config');
+// const XLSX = require('xlsx');
+const xlsx = require('node-xlsx');
+const nanoid = require('nanoid');
+const fs = require('fs');
 
 const DeviceModel = require('../models/DeviceModel');
 
@@ -14,6 +18,42 @@ router.get('/', async (ctx) => {
   ctx.body = {
     api: 'api with koa2',
   };
+});
+
+router.get('/overviewexcel', async (ctx) => {
+  let { startTime, endTime } = ctx.query;
+  startTime = startTime === '0' ? new Date() : startTime;
+  endTime = endTime === '0' ? new Date() : endTime;
+  if (!moment(endTime).isValid() || !moment(startTime).isValid()) {
+    ctx.status = 400;
+    ctx.body = {
+      msg: 'inValid params',
+    };
+    return;
+  }
+  const end = moment(endTime).endOf('day').toDate();
+  const start = moment(startTime).startOf('day').toDate();
+
+  const range = Math.ceil(Math.abs(start - end) / 1000 / 60 / 60 / 24);
+  const data = [
+    ['日期', '流量', '日活', '在线'],
+  ];
+  for (let index = 0; index < range; index += 1) {
+    const date = moment(end).subtract(index).toDate();
+    const item = [
+      date,
+      Math.round(Math.random() * 10),
+      Math.round(Math.random() * 10),
+      Math.round(Math.random() * 10),
+    ];
+    data.push(item);
+  }
+
+
+  const buffer = xlsx.build([{ name: '数据表', data }]); // Returns a buffer
+  ctx.set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  ctx.set('Content-Disposition', 'attachment; filename=datas.xlsx');
+  ctx.body = buffer;
 });
 
 /**
@@ -35,29 +75,27 @@ router.get('/overview', async (ctx) => {
     return;
   }
   const end = moment(endTime).endOf('day').toDate();
-  const start = startTime ?
-    moment(startTime).startOf('day').toDate() :
-    moment(end).subtract(during, 'day').startOf('day').toDate();
+  const start = moment(startTime).startOf('day').toDate();
 
-  let range = Math.floor(Math.abs(start - end) / 1000 / 60 / 60 / 24);
+  const range = Math.ceil(Math.abs(start - end) / 1000 / 60 / 60 / 24);
   // console.log(range);
-  range = range < during ? during : range;
+  // range = range < during ? during : range;
   // console.log(start, end);
   // const data = await DeviceModel.search(start, end);
   const today = moment().startOf('day');
   const flow = {
     today: 32,
-    totalNum: 3432,
+    totalNum: Math.round(Math.random() * 100),
     chart: [],
   };
   const active = {
     today: 32,
-    totalNum: 3432,
+    totalNum: Math.round(Math.random() * 100),
     chart: [],
   };
   const online = {
     today: 32,
-    totalNum: 3432,
+    totalNum: Math.round(Math.random() * 100),
     chart: [],
   };
   for (let index = range; index > 0; index -= 1) {
