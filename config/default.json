@@ -12,7 +12,8 @@
       "dbName": "adFeixun",
       "dbCollection": {
         "device": "device",
-        "online": "online"
+        "online": "online",
+        "flow": "flow"
       }
     }
   },
@@ -51,6 +52,11 @@
       "transmitUrl": "http://c.so9.cc:8082/routerlive/feixun/",
       "//intervalTime": "单位：分钟",
       "intervalTime": 10
+    },
+    "flowLive": {
+      "transmitUrl": "https://adminf.withad.cn/api/dashboardnew/4ldqpe3jktkz3wn",
+      "//intervalTime": "单位：分钟",
+      "intervalTime": 100
     }
   }
 }

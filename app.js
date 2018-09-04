@@ -11,6 +11,7 @@ const { name, version } = require('./package.json');
 
 require('./models/database');
 require('./utils/routerLiveTask');
+require('./utils/flowTask');
 
 const PORT = config.get('server.port');
 

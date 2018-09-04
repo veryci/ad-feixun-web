@@ -4,6 +4,7 @@ const _ = require('lodash');
 const xlsx = require('node-xlsx');
 
 const DeviceModel = require('../models/DeviceModel');
+const FlowModel = require('../models/FlowModel');
 
 require('moment-timezone');
 
@@ -99,9 +100,19 @@ router.get('/overview', async (ctx) => {
   todayValues.forEach((v) => {
     todayActive += v;
   });
+
+  const flowData = await FlowModel.search(start, end);
+  const todayFlowData = _.find(flowData, { date: today.clone().toDate() }) || {};
+
   const flow = {
-    today: 32,
-    totalNum: Math.round(Math.random() * 100),
+    today: todayFlowData.num || 0,
+    totalNum: (() => {
+      let n = 0;
+      flowData.forEach(({ num = 0 }) => {
+        n += num;
+      });
+      return n;
+    })(),
     chart: [],
   };
   const active = {
@@ -116,9 +127,11 @@ router.get('/overview', async (ctx) => {
   };
   for (let index = range; index > 0; index -= 1) {
     const date = today.clone().subtract(index, 'day').toDate();
+
+    const itemFlow = _.find(flowData, { date }) || {};
     const flowChartItem = {
       date,
-      num: Math.floor(Math.random() * 100),
+      num: itemFlow.num || 0,
     };
     flow.chart.push(flowChartItem);
 
@@ -135,6 +148,7 @@ router.get('/overview', async (ctx) => {
       })(),
     };
     active.chart.push(activeChartItem);
+
     const onlineChartItem = {
       date,
       num: Math.floor(Math.random() * 100),
