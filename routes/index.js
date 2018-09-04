@@ -1,14 +1,9 @@
 const router = require('koa-router')({ prefix: '/api' });
 const moment = require('moment');
-const config = require('config');
-// const XLSX = require('xlsx');
+const _ = require('lodash');
 const xlsx = require('node-xlsx');
-const nanoid = require('nanoid');
-const fs = require('fs');
 
 const DeviceModel = require('../models/DeviceModel');
-
-const during = config.get('during') || 10;
 
 require('moment-timezone');
 
@@ -38,12 +33,20 @@ router.get('/overviewexcel', async (ctx) => {
   const data = [
     ['日期', '流量', '日活', '在线'],
   ];
+  const activeData = await DeviceModel.search(start, end);
   for (let index = 0; index < range; index += 1) {
-    const date = moment(end).subtract(index, 'day').toDate();
+    const date = moment(end).subtract(index, 'day').startOf('day').toDate();
+
+    // 日活
+    let activeDataDaily = 0;
+    const activeDataItem = _.find(activeData, { date }) || {};
+    Object.values(activeDataItem.info || {}).forEach((v) => {
+      activeDataDaily += v;
+    });
     const item = [
       date,
       Math.round(Math.random() * 10),
-      Math.round(Math.random() * 10),
+      activeDataDaily,
       Math.round(Math.random() * 10),
     ];
     data.push(item);
@@ -77,20 +80,33 @@ router.get('/overview', async (ctx) => {
   const end = moment(endTime).endOf('day').toDate();
   const start = moment(startTime).startOf('day').toDate();
 
+  let totalActiveNum = 0;
   const range = Math.ceil(Math.abs(start - end) / 1000 / 60 / 60 / 24);
-  // console.log(range);
-  // range = range < during ? during : range;
-  // console.log(start, end);
-  // const data = await DeviceModel.search(start, end);
+  const activeData = await DeviceModel.search(start, end);
+  activeData.forEach((v) => {
+    const info = v.info || {};
+    const values = Object.values(info);
+    values.forEach((n) => {
+      totalActiveNum += n;
+    });
+  });
   const today = moment().startOf('day');
+  const todayActiveData = _.find(activeData, { date: today.clone().toDate() });
+
+  let todayActive = 0;
+  const todayInfo = todayActiveData.info || {};
+  const todayValues = Object.values(todayInfo);
+  todayValues.forEach((v) => {
+    todayActive += v;
+  });
   const flow = {
     today: 32,
     totalNum: Math.round(Math.random() * 100),
     chart: [],
   };
   const active = {
-    today: 32,
-    totalNum: Math.round(Math.random() * 100),
+    today: todayActive,
+    totalNum: totalActiveNum,
     chart: [],
   };
   const online = {
@@ -105,9 +121,18 @@ router.get('/overview', async (ctx) => {
       num: Math.floor(Math.random() * 100),
     };
     flow.chart.push(flowChartItem);
+
+    const item = _.find(activeData, { date }) || {};
     const activeChartItem = {
       date,
-      num: Math.floor(Math.random() * 100),
+      num: (() => {
+        let num = 0;
+        const info = item.info || {};
+        Object.values(info).forEach((v) => {
+          num += v;
+        });
+        return num;
+      })(),
     };
     active.chart.push(activeChartItem);
     const onlineChartItem = {
