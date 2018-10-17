@@ -19,8 +19,8 @@ class OverView extends React.Component {
   }
   componentDidMount() {
     const { dispatch } = this.props;
-    const { startTime, endTime } = this.state;
-    dispatch(dailyDataAction({ startTime, endTime }));
+    const { time } = this.state;
+    dispatch(dailyDataAction(time));
   }
   onChange(value) {
     this.setState({ time: value });
