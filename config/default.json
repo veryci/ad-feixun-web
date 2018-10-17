@@ -48,7 +48,7 @@
   },
   "transmit": {
     "routerLive": {
-      "transmitUrl": "http://c.so9.cc:8082/routerlive/feixun/",
+      "transmitUrl": "http://117.121.99.98:8082/routerlive/feixun/",
       "//intervalTime": "单位：分钟",
       "intervalTime": 10
     }
