@@ -12,43 +12,36 @@ class OverView extends React.Component {
   constructor() {
     super();
     this.state = {
-      startTime: moment().subtract(7, 'days').format('YYYY-MM-DD'),
-      endTime: moment().format('YYYY-MM-DD'),
+      time: moment().subtract(1, 'days').format('YYYY-MM-DD'),
     };
-    this.changeTime = this.changeTime.bind(this);
-    this.onChangeStart = this.onChangeStart.bind(this);
-    this.onChangeEnd = this.onChangeEnd.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.searchTime = this.searchTime.bind(this);
   }
   componentDidMount() {
     const { dispatch } = this.props;
     const { startTime, endTime } = this.state;
     dispatch(dailyDataAction({ startTime, endTime }));
   }
-  onChangeStart(value) {
-    this.setState({ startTime: value });
+  onChange(value) {
+    this.setState({ time: value });
   }
-  onChangeEnd(value) {
-    this.setState({ endTime: value });
-  }
-  changeTime(startTime, endTime) {
+  searchTime(time) {
     const { dispatch } = this.props;
-    dispatch(dailyDataAction({ startTime, endTime }));
+    dispatch(dailyDataAction(time));
   }
   render() {
-    const { startTime, endTime } = this.state;
+    const { time } = this.state;
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
           <DatePicker
-            startTime={startTime}
-            endTime={endTime}
-            changeTime={this.changeTime}
-            onChangeStart={this.onChangeStart}
-            onChangeEnd={this.onChangeEnd}
+            time={time}
+            searchTime={this.searchTime}
+            onChange={this.onChange}
           />&nbsp;&nbsp;
           <Button
             as="a"
-            href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
+            // href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
             content="导出Excel"
             style={{ margin: '3px 0' }}
             primary

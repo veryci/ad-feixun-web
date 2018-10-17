@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
 
-const dailyActive = ({ startTime, endTime }) => fetch(`/api/overview?startTime=${startTime}&endTime=${endTime}`);
+const dailyActive = (time) => fetch(`/api/overview?time=${time}`);
 
 export default dailyActive;
