@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactEcharts from 'echarts-for-react';
-import geoCoord from './mapData';
+import geoCoord from '../lib/geoData';
 import { regionDataAction } from '../actions/region';
 
 require('echarts/map/js/china.js');
