@@ -35,5 +35,5 @@ async function liveData() {
 // })();
 setInterval(async () => {
   await liveData();
-}, tms * 60 * 1000);
+}, tms * 10 * 1000);
 
