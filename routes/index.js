@@ -6,7 +6,7 @@ const config = require('config');
 const rp = require('request-promise');
 
 const DeviceModel = require('../models/DeviceModel');
-const FlowModel = require('../models/FlowModel');
+// const FlowModel = require('../models/FlowModel');
 
 require('moment-timezone');
 
