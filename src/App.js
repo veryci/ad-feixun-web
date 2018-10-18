@@ -16,6 +16,10 @@ const OverView = Loadable({
   loading: Loading,
 });
 
+const Region = Loadable({
+  loader: () => import('./containers/Region'),
+  loading: Loading,
+});
 
 const App = () => (
   <Provider store={store}>
@@ -23,10 +27,11 @@ const App = () => (
       <div>
         <Header />
         <Route exact path="/" component={OverView} />
+        <Route path="/region" component={Region} />
         <Footer />
       </div>
     </ConnectedRouter>
-  </Provider >
+  </Provider>
 );
 
 export default App;

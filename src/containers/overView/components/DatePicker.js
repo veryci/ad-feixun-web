@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { Input, Button } from 'semantic-ui-react';
 
 class DatePicker extends Component {

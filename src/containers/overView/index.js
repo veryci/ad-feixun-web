@@ -12,8 +12,8 @@ class OverView extends React.Component {
   constructor() {
     super();
     this.state = {
-      startTime: moment().subtract(7, 'days').format('YYYY-MM-DD'),
-      endTime: moment().format('YYYY-MM-DD'),
+      startTime: moment().subtract(8, 'days').format('YYYY-MM-DD'),
+      endTime: moment().subtract(1, 'days').format('YYYY-MM-DD'),
     };
     this.changeTime = this.changeTime.bind(this);
     this.onChangeStart = this.onChangeStart.bind(this);
@@ -48,7 +48,7 @@ class OverView extends React.Component {
           />&nbsp;&nbsp;
           <Button
             as="a"
-            href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
+            // href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
             content="导出Excel"
             style={{ margin: '3px 0' }}
             primary
@@ -66,4 +66,3 @@ OverView.propTypes = {
 };
 
 export default connect()(OverView);
-

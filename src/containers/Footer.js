@@ -7,7 +7,7 @@ function Footer() {
   return (
     <Segment basic style={{ padding: '1em 0em' }}>
       <Container textAlign="right" >
-        {`version:${REACT_APP_VERSION}（目前使用假数据）`}
+        {`version:${REACT_APP_VERSION}`}
       </Container>
     </Segment>
   );
