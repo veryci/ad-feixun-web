@@ -59,4 +59,3 @@ OverView.propTypes = {
 };
 
 export default connect()(OverView);
-
