@@ -6,7 +6,7 @@ const config = require('config');
 const rp = require('request-promise');
 
 const DeviceModel = require('../models/DeviceModel');
-// const FlowModel = require('../models/FlowModel');
+const FlowModel = require('../models/FlowModel');
 
 require('moment-timezone');
 
@@ -75,14 +75,12 @@ router.get('/overviewexcel', async (ctx) => {
  * endTime: string
  */
 router.get('/overview', async (ctx) => {
-  const { endTime } = ctx.query;
-  let { time } = ctx.query;
-  if (endTime) {
-    time = endTime;
-  }
-  time = time === '0' ? new Date() : time;
+  let { startTime, endTime } = ctx.query;
 
-  if (!moment(time).isValid()) {
+  startTime = startTime === '0' ? new Date() : startTime;
+  endTime = endTime === '0' ? new Date() : endTime;
+
+  if (!moment(startTime).isValid() || !moment(endTime).isValid()) {
     ctx.status = 400;
     ctx.body = {
       msg: 'inValid params',
@@ -90,121 +88,120 @@ router.get('/overview', async (ctx) => {
     return;
   }
 
-  // const end = moment(endTime).endOf('day').toDate();
-  // const start = moment(startTime).startOf('day').toDate();
+  const end = moment(endTime).endOf('day').toDate();
+  const start = moment(startTime).startOf('day').toDate();
 
-  // const totalActiveNum = 0;
-  // const range = Math.ceil(Math.abs(start - end) / 1000 / 60 / 60 / 24);
-  // const activeData = await DeviceModel.search(start, end);
+  let totalActiveNum = 0;
+  const range = Math.ceil(Math.abs(start - end) / 1000 / 60 / 60 / 24);
+  const activeData = await DeviceModel.search(start, end);
 
-  time = moment(time).format('YYYYMMDD');
-  const body = await rp.get(`${url}?d=${time}`, { json: true });
+  // time = moment(time).format('YYYYMMDD');
+  // const body = await rp.get(`${url}?d=${time}`, { json: true });
   // const date = moment().startOf('day').toDate();
 
-  let count = 0;
+  // let count = 0;
 
-  for (i in body) {
-    count += body[i];
+  // for (i in body) {
+  //   count += body[i];
+  // }
+
+  console.log(activeData);
+
+  if (activeData.length === 0) {
+    ctx.body = {
+      flow: {
+        today: 0,
+        totalNum: 0,
+        chart: [],
+      },
+      active: {
+        today: 0,
+        totalNum: 0,
+        chart: [],
+      },
+      online: {
+        today: 0,
+        totalNum: 0,
+        chart: [],
+      },
+    };
   }
 
+
+  activeData.forEach((v) => {
+    const info = v.info || {};
+    const values = Object.values(info);
+    values.forEach((n) => {
+      totalActiveNum += n;
+    });
+  });
+  const today = moment().startOf('day');
+
+  let todayActive = 0;
+  const infoNum = activeData[0].info;
+  todayActive = infoNum['feixun-k2'];
+
+
+  const flowData = await FlowModel.search(start, end);
+  const todayFlowData = _.find(flowData, { date: today.clone().toDate() }) || {};
+
   const flow = {
-    today: 0,
-    totalNum: 0,
+    today: todayFlowData.num || 0,
+    totalNum: (() => {
+      let n = 0;
+      flowData.forEach(({ num = 0 }) => {
+        n += num;
+      });
+      return n;
+    })(),
     chart: [],
   };
+  const active = {
+    today: todayActive,
+    totalNum: totalActiveNum,
+    chart: [],
+  };
+  const online = {
+    today: 32,
+    totalNum: Math.round(Math.random() * 100),
+    chart: [],
+  };
+  for (let index = range; index > 0; index -= 1) {
+    const date = today.clone().subtract(index, 'day').toDate();
+
+    const itemFlow = _.find(flowData, { date }) || {};
+    const flowChartItem = {
+      date,
+      num: itemFlow.num || 0,
+    };
+    flow.chart.push(flowChartItem);
+
+    const item = _.find(activeData, { date }) || {};
+    const activeChartItem = {
+      date,
+      num: (() => {
+        let num = 0;
+        const info = item.info || {};
+        Object.values(info).forEach((v) => {
+          num += v;
+        });
+        return num;
+      })(),
+    };
+    active.chart.push(activeChartItem);
+
+    const onlineChartItem = {
+      date,
+      num: Math.floor(Math.random() * 100),
+    };
+    online.chart.push(onlineChartItem);
+  }
 
   ctx.body = {
     flow,
-    active: {
-      today: count,
-      totalNum: count,
-      chart: [],
-    },
-    online: {
-      today: 0,
-      totalNum: 0,
-      chart: [],
-    },
+    active,
+    online,
   };
-
-  // activeData.forEach((v) => {
-  //   const info = v.info || {};
-  //   const values = Object.values(info);
-  //   values.forEach((n) => {
-  //     totalActiveNum += n;
-  //   });
-  // });
-  // const today = moment().startOf('day');
-  // const todayActiveData = _.find(activeData, { date: today.clone().toDate() });
-
-  // let todayActive = 0;
-  // const todayInfo = todayActiveData.info || {};
-  // const todayValues = Object.values(todayInfo);
-  // todayValues.forEach((v) => {
-  //   todayActive += v;
-  // });
-
-  // const flowData = await FlowModel.search(start, end);
-  // const todayFlowData = _.find(flowData, { date: today.clone().toDate() }) || {};
-
-  // const flow = {
-  //   today: todayFlowData.num || 0,
-  //   totalNum: (() => {
-  //     let n = 0;
-  //     flowData.forEach(({ num = 0 }) => {
-  //       n += num;
-  //     });
-  //     return n;
-  //   })(),
-  //   chart: [],
-  // };
-  // const active = {
-  //   today: todayActive,
-  //   totalNum: totalActiveNum,
-  //   chart: [],
-  // };
-  // const online = {
-  //   today: 32,
-  //   totalNum: Math.round(Math.random() * 100),
-  //   chart: [],
-  // };
-  // for (let index = range; index > 0; index -= 1) {
-  //   const date = today.clone().subtract(index, 'day').toDate();
-
-  //   const itemFlow = _.find(flowData, { date }) || {};
-  //   const flowChartItem = {
-  //     date,
-  //     num: itemFlow.num || 0,
-  //   };
-  //   flow.chart.push(flowChartItem);
-
-  //   const item = _.find(activeData, { date }) || {};
-  //   const activeChartItem = {
-  //     date,
-  //     num: (() => {
-  //       let num = 0;
-  //       const info = item.info || {};
-  //       Object.values(info).forEach((v) => {
-  //         num += v;
-  //       });
-  //       return num;
-  //     })(),
-  //   };
-  //   active.chart.push(activeChartItem);
-
-  //   const onlineChartItem = {
-  //     date,
-  //     num: Math.floor(Math.random() * 100),
-  //   };
-  //   online.chart.push(onlineChartItem);
-  // }
-
-  // data
-  // ctx.body = {
-  //   flow,
-  //   active,
-  //   online,
-  // };
 });
 
 
