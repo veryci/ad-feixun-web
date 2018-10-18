@@ -13,7 +13,7 @@ class OverView extends React.Component {
     super();
     this.state = {
       startTime: moment().subtract(7, 'days').format('YYYY-MM-DD'),
-      endTime: moment().format('YYYY-MM-DD'),
+      endTime: moment().subtract(1,'days').format('YYYY-MM-DD'),
     };
     this.changeTime = this.changeTime.bind(this);
     this.onChangeStart = this.onChangeStart.bind(this);
