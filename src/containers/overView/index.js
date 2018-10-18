@@ -12,32 +12,39 @@ class OverView extends React.Component {
   constructor() {
     super();
     this.state = {
-      time: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+      startTime: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+      endTime: moment().format('YYYY-MM-DD'),
     };
-    this.onChange = this.onChange.bind(this);
-    this.searchTime = this.searchTime.bind(this);
+    this.changeTime = this.changeTime.bind(this);
+    this.onChangeStart = this.onChangeStart.bind(this);
+    this.onChangeEnd = this.onChangeEnd.bind(this);
   }
   componentDidMount() {
     const { dispatch } = this.props;
-    const { time } = this.state;
-    dispatch(dailyDataAction(time));
+    const { startTime, endTime } = this.state;
+    dispatch(dailyDataAction({ startTime, endTime }));
   }
-  onChange(value) {
-    this.setState({ time: value });
+  onChangeStart(value) {
+    this.setState({ startTime: value });
   }
-  searchTime(time) {
+  onChangeEnd(value) {
+    this.setState({ endTime: value });
+  }
+  changeTime(startTime, endTime) {
     const { dispatch } = this.props;
-    dispatch(dailyDataAction(time));
+    dispatch(dailyDataAction({ startTime, endTime }));
   }
   render() {
-    const { time } = this.state;
+    const { startTime, endTime } = this.state;
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
           <DatePicker
-            time={time}
-            searchTime={this.searchTime}
-            onChange={this.onChange}
+            startTime={startTime}
+            endTime={endTime}
+            changeTime={this.changeTime}
+            onChangeStart={this.onChangeStart}
+            onChangeEnd={this.onChangeEnd}
           />&nbsp;&nbsp;
           <Button
             as="a"
@@ -59,4 +66,3 @@ OverView.propTypes = {
 };
 
 export default connect()(OverView);
-
