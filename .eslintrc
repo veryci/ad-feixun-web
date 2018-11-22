@@ -8,7 +8,6 @@
     "consistent-return": [
       0
     ],
-    "linebreak-style": 0,
     "no-plusplus": 0,
     "no-dynamic-import": 0,
     "import/no-named-as-default-member": 0,

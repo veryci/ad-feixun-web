@@ -4,7 +4,6 @@ import createHistory from 'history/createHashHistory';
 
 import { routerMiddleware } from 'react-router-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-
 import reducers from './reducers';
 
 const history = createHistory();
@@ -13,11 +12,10 @@ const middlewares = [
   thunk.withExtraArgument(),
 ];
 
-if (process.env.NODE_ENV === 'development') {
-  /* eslint global-require: 0 */
-  const { logger } = require('redux-logger');
-  middlewares.push(logger);
+let composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+if (process.env.NODE_ENV !== 'development') {
+  composeEnhancers = compose;
 }
 
-const store = compose(applyMiddleware(...middlewares))(createStore)(reducers);
+const store = composeEnhancers(applyMiddleware(...middlewares))(createStore)(reducers);
 export { store, history };
