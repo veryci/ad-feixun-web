@@ -2,8 +2,6 @@ const router = require('koa-router')({ prefix: '/api' });
 const moment = require('moment');
 const _ = require('lodash');
 const xlsx = require('node-xlsx');
-const config = require('config');
-const rp = require('request-promise');
 
 const DeviceModel = require('../models/DeviceModel');
 const FlowModel = require('../models/FlowModel');
@@ -11,9 +9,6 @@ const FlowModel = require('../models/FlowModel');
 require('moment-timezone');
 
 moment.tz.setDefault('Asia/Shanghai');
-
-const routerLive = config.get('transmit.routerLive');
-const url = routerLive.transmitUrl;
 
 router.get('/', async (ctx) => {
   ctx.body = {
@@ -95,18 +90,6 @@ router.get('/overview', async (ctx) => {
   const range = Math.ceil(Math.abs(start - end) / 1000 / 60 / 60 / 24);
   const activeData = await DeviceModel.search(start, end);
 
-  // time = moment(time).format('YYYYMMDD');
-  // const body = await rp.get(`${url}?d=${time}`, { json: true });
-  // const date = moment().startOf('day').toDate();
-
-  // let count = 0;
-
-  // for (i in body) {
-  //   count += body[i];
-  // }
-
-  console.log(activeData);
-
   if (activeData.length === 0) {
     ctx.body = {
       flow: {
@@ -127,7 +110,6 @@ router.get('/overview', async (ctx) => {
     };
   }
 
-
   activeData.forEach((v) => {
     const info = v.info || {};
     const values = Object.values(info);
@@ -139,8 +121,12 @@ router.get('/overview', async (ctx) => {
 
   let todayActive = 0;
   const infoNum = activeData[0].info;
-  todayActive = infoNum['feixun-k2'];
 
+  for (const i in infoNum) {
+    if (Object.prototype.hasOwnProperty.call(infoNum, i)) {
+      todayActive = infoNum[i];
+    }
+  }
 
   const flowData = await FlowModel.search(start, end);
   const todayFlowData = _.find(flowData, { date: today.clone().toDate() }) || {};
