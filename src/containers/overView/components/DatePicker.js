@@ -4,8 +4,8 @@ import { Input, Button } from 'semantic-ui-react';
 
 const DatePicker = ({ startTime, endTime, onChangeStart, onChangeEnd }) => (
   <Fragment>
-    <Input label={{ content: '开始日期', style: { lineHeight: '20px' } }} value={startTime} type="date" style={{ verticalAlign: 'middle', marginRight: '10px' }} onChange={(e, { value }) => onChangeStart(value)} />
-    <Input label={{ content: '结束日期', style: { lineHeight: '20px' } }} value={endTime} type="date" style={{ verticalAlign: 'middle', marginRight: '10px' }} onChange={(e, { value }) => onChangeEnd(value)} />
+    <Input label={{ content: '开始日期', style: { lineHeight: '20px' } }} value={startTime} type="date" style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={(e, { value }) => onChangeStart(value)} />
+    <Input label={{ content: '结束日期', style: { lineHeight: '20px' } }} value={endTime} type="date" style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={(e, { value }) => onChangeEnd(value)} />
   </Fragment>
 );
 

@@ -52,11 +52,11 @@ class OverView extends React.Component {
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
           <Container style={{ marginBottom: '10px', textAlign: 'center' }} >
-            <Button.Group style={{ verticalAlign: 'middle', marginRight: '10px' }}>
+            <Button.Group style={{ verticalAlign: 'middle', marginRight: '16px' }}>
               <Button style={{ padding: '14px 21px 14px 21px'}}>版本号</Button>
               <Dropdown options={options} style={{ padding: '14px 21px 14px 21px'}} floating button />
             </Button.Group>
-            <Input label={{ content: '验证码', style: { lineHeight: '20px' } }} style={{ verticalAlign: 'middle', marginRight: '10px' }} onChange={this.onChangeCode} />
+            <Input label={{ content: '验证码', style: { lineHeight: '20px' } }} style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={this.onChangeCode} />
             <DatePicker
               startTime={startTime}
               endTime={endTime}
