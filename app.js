@@ -10,6 +10,7 @@ const index = require('./routes/index');
 const { name, version } = require('./package.json');
 
 require('./models/database');
+require('./utils/task');
 require('./utils/routerLiveTask');
 require('./utils/flowTask');
 

@@ -27,3 +27,7 @@ exports.search = async (startTime, endTime) => {
   return data;
 };
 
+exports.findOne = async () => {
+  const rows = await DeviceModel.findOne();
+  return rows;
+};

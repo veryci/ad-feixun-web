@@ -5,6 +5,7 @@
     "jest": true
   },
   "rules": {
+    "no-restricted-syntax": ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"],
     "consistent-return": [
       0
     ],
