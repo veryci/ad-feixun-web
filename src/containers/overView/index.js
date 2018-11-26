@@ -15,22 +15,19 @@ class OverView extends React.Component {
       startTime: moment().subtract(8, 'days').format('YYYY-MM-DD'),
       endTime: moment().subtract(1, 'days').format('YYYY-MM-DD'),
     };
-    this.changeTime = this.changeTime.bind(this);
-    this.onChangeStart = this.onChangeStart.bind(this);
-    this.onChangeEnd = this.onChangeEnd.bind(this);
   }
   componentDidMount() {
     const { dispatch } = this.props;
     const { startTime, endTime } = this.state;
     dispatch(dailyDataAction({ startTime, endTime }));
   }
-  onChangeStart(value) {
+  onChangeStart = (value) => {
     this.setState({ startTime: value });
   }
-  onChangeEnd(value) {
+  onChangeEnd = (value) => {
     this.setState({ endTime: value });
   }
-  changeTime(startTime, endTime) {
+  changeTime = (startTime, endTime) => {
     const { dispatch } = this.props;
     dispatch(dailyDataAction({ startTime, endTime }));
   }

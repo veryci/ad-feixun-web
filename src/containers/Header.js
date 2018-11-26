@@ -12,21 +12,13 @@ const {
 } = process.env;
 
 class Header extends React.Component {
-  constructor() {
-    super();
-    this.logout = this.logout.bind(this);
-  }
 
-  logout() {
+  logout = () => {
     this.props.logoutAction();
   }
 
   render() {
-    const {
-      location,
-    } = this.props;
-
-    const { pathname } = location;
+    const { location: { pathname } } = this.props;
     return pathname === '/login' ? null : (
       <Menu fixed="top" inverted>
         <Container>
