@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Button, Input, Dropdown, Form } from 'semantic-ui-react';
+import { Container, Button, Input, Dropdown } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import DatePicker from './components/DatePicker';
