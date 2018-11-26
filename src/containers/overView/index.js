@@ -68,7 +68,7 @@ class OverView extends React.Component {
             as="a"
             // href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
             content="导出Excel"
-            style={{float: 'right' }}
+            style={{ float: 'right' }}
             primary
           />
           <Button
