@@ -5,16 +5,22 @@ const DeviceModel = require('../models/DeviceModel');
 
 const num = 7;
 const routerLive = config.get('transmit.routerLive');
-const url = routerLive.transmitUrl;
+const routerOnline = config.get('transmit.routerOnline');
+const liveUrl = routerLive.transmitUrl;
+const lineUrl = routerOnline.transmitUrl;
 
 async function dbCreate(number) {
   const time = moment().subtract(number, 'days').format('YYYYMMDD');
-  const body = await rp.get(`${url}?d=${time}`, { json: true });
+
+  const info = await rp.get(`${liveUrl}?d=${time}`, { json: true });
+  const online = await rp.get(`${lineUrl}?d=${time}`, { json: true });
+
   const date = moment().subtract(number, 'days').startOf('day').toDate();
   const obj = {
     date,
     lastUpdate: new Date(),
-    info: body,
+    info,
+    online,
   };
   await DeviceModel.save(obj);
 }

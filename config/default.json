@@ -53,10 +53,15 @@
       "//intervalTime": "单位：分钟",
       "intervalTime": 10
     },
+    "routerOnline": {
+      "transmitUrl": "http://118.190.163.181:8082/routeronline/feixun/",
+      "//intervalTime": "单位：分钟",
+      "intervalTime": 10
+    },
     "flowLive": {
       "transmitUrl": "https://adminf.withad.cn/api/dashboardnew/4ldqpe3jktkz3wn",
       "//intervalTime": "单位：分钟",
-      "intervalTime": 100
+      "intervalTime": 10
     }
   }
 }

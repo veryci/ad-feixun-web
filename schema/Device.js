@@ -3,4 +3,5 @@ module.exports = {
   createDate: { type: Date, default: new Date() },
   lastUpdate: { type: Date, default: new Date() },
   info: {},
+  online: {},
 };

@@ -87,6 +87,7 @@ router.get('/overview', async (ctx) => {
   const start = moment(startTime).startOf('day').toDate();
 
   let totalActiveNum = 0;
+  let totalLineNum = 0;
   const range = Math.ceil(Math.abs(start - end) / 1000 / 60 / 60 / 24);
   const activeData = await DeviceModel.search(start, end);
 
@@ -112,19 +113,33 @@ router.get('/overview', async (ctx) => {
 
   activeData.forEach((v) => {
     const info = v.info || {};
+    const online = v.online || {};
     const values = Object.values(info);
+    const lineVal = Object.values(online);
     values.forEach((n) => {
       totalActiveNum += n;
+    });
+
+    lineVal.forEach((n) => {
+      totalLineNum += n;
     });
   });
   const today = moment().startOf('day');
 
   let todayActive = 0;
+  let todayLine = 0;
   const infoNum = activeData[0].info;
+  const lineNum = activeData[0].info;
 
   for (const i in infoNum) {
     if (Object.prototype.hasOwnProperty.call(infoNum, i)) {
       todayActive = infoNum[i];
+    }
+  }
+
+  for (const i in lineNum) {
+    if (Object.prototype.hasOwnProperty.call(lineNum, i)) {
+      todayLine = lineNum[i];
     }
   }
 
@@ -148,10 +163,11 @@ router.get('/overview', async (ctx) => {
     chart: [],
   };
   const online = {
-    today: 32,
-    totalNum: Math.round(Math.random() * 100),
+    today: todayLine,
+    totalNum: totalLineNum,
     chart: [],
   };
+
   for (let index = range; index > 0; index -= 1) {
     const date = today.clone().subtract(index, 'day').toDate();
 
@@ -178,7 +194,14 @@ router.get('/overview', async (ctx) => {
 
     const onlineChartItem = {
       date,
-      num: Math.floor(Math.random() * 100),
+      num: (() => {
+        let num = 0;
+        const info = item.online || {};
+        Object.values(info).forEach((v) => {
+          num += v;
+        });
+        return num;
+      })(),
     };
     online.chart.push(onlineChartItem);
   }
