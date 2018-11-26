@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Button, Input, Dropdown } from 'semantic-ui-react';
+import { Container, Button, Input, Dropdown, Grid } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import DatePicker from './components/DatePicker';
@@ -51,32 +51,32 @@ class OverView extends React.Component {
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
-          <Container style={{ marginBottom: '10px', textAlign: 'center' }} >
-            <Button.Group style={{ verticalAlign: 'middle', marginRight: '16px' }}>
-              <Button style={{ padding: '14px 21px 14px 21px'}}>版本号</Button>
-              <Dropdown options={options} style={{ padding: '14px 21px 14px 21px'}} floating button />
-            </Button.Group>
-            <Input label={{ content: '验证码', style: { lineHeight: '20px' } }} style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={this.onChangeCode} />
-            <DatePicker
-              startTime={startTime}
-              endTime={endTime}
-              onChangeStart={this.onChangeStart}
-              onChangeEnd={this.onChangeEnd}
+          <Grid style={{ marginBottom: '1em' }}>
+            <Grid.Column width={4}>
+              <Button.Group style={{ verticalAlign: 'middle', marginRight: '16px' }}>
+                <Button style={{ padding: '14px 21px 14px 21px'}}>版本号</Button>
+                <Dropdown defaultValue={options[0].value} options={options} style={{ padding: '14px 21px 14px 21px'}} floating button />
+              </Button.Group>
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <Input label={{ content: '验证码', style: { lineHeight: '20px' } }} style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={this.onChangeCode} />
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <Input label={{ content: '开始日期', style: { lineHeight: '20px' } }} value={startTime} type="date" style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={(e, { value }) => this.onChangeStart(value)} />
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <Input label={{ content: '结束日期', style: { lineHeight: '20px' } }} value={endTime} type="date" style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={(e, { value }) => this.onChangeEnd(value)} />
+            </Grid.Column>
+          </Grid>
+          <Container textAlign='right'>
+            <Button content="查询" primary onClick={this.onSerch} />
+            <Button
+              as="a"
+              // href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
+              content="导出Excel"
+              primary
             />
           </Container>
-          <Button
-            as="a"
-            // href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
-            content="导出Excel"
-            style={{ float: 'right' }}
-            primary
-          />
-          <Button
-            content="查询"
-            style={{ float: 'right', marginRight: '10px' }}
-            primary
-            onClick={this.onSerch}
-          />
           <GridDashboard />
           <Chart />
         </Container>
