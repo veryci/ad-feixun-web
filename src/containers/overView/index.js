@@ -21,27 +21,34 @@ class OverView extends React.Component {
       startTime: moment().subtract(8, 'days').format('YYYY-MM-DD'),
       endTime: moment().subtract(1, 'days').format('YYYY-MM-DD'),
       code: '',
+      message: '',
     };
   }
   onChangeCode = (e) => {
-    this.setState({ code: e.target.value });
+    const { dailyActive: { datas } } = this.props;
+    this.setState({ code: e.target.value, message: '' });
+    datas.message = '';
   }
   onChangeStart = (value) => {
-    this.setState({ startTime: value });
+    const { dailyActive: { datas } } = this.props;
+    this.setState({ startTime: value, message: '' });
+    datas.message = '';
   }
   onChangeEnd = (value) => {
-    this.setState({ endTime: value });
+    const { dailyActive: { datas } } = this.props;
+    this.setState({ endTime: value, message: '' });
+    datas.message = '';
   }
   onSerch = () => {
     const { startTime, endTime, code } = this.state;
     const { dispatch } = this.props;
     if (startTime && startTime <= endTime && code) {
       dispatch(dailyDataAction({ startTime, endTime, code }));
-    } else if (!code) alert('请输入验证码');
-    else alert('请输入正确的查询日期');
+    } else if (!code) this.setState({ message: '请输入验证码' });
+    else this.setState({ message: '请输入正确的开始日期' });
   }
   render() {
-    const { startTime, endTime, code } = this.state;
+    const { startTime, endTime, code, message } = this.state;
     const { datas } = this.props.dailyActive;
     return (
       <React.Fragment>
@@ -72,13 +79,14 @@ class OverView extends React.Component {
               primary
             />
           </Container>
-          {datas.flow ?
+          {datas.flow &&
             <React.Fragment>
               <GridDashboard />
               <Chart />
             </React.Fragment>
-          : <Alert message={datas.message} />
           }
+          {datas.message && <Alert message={datas.message} />}
+          {message && <Alert message={message} />}
         </Container>
       </React.Fragment>
     );
