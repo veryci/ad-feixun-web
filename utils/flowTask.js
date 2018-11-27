@@ -30,9 +30,7 @@ async function liveData() {
     logUtil.err(err);
   }
 }
-// (async () => {
-//   await liveData();
-// })();
+
 setInterval(async () => {
   await liveData();
 }, tms * 60 * 1000);

@@ -70,7 +70,8 @@ router.get('/overviewexcel', async (ctx) => {
  * endTime: string
  */
 router.get('/overview', async (ctx) => {
-  let { startTime, endTime, code } = ctx.query;
+  let { startTime, endTime } = ctx.query;
+  const { code } = ctx.query;
 
   startTime = startTime === '0' ? new Date() : startTime;
   endTime = endTime === '0' ? new Date() : endTime;
@@ -83,143 +84,142 @@ router.get('/overview', async (ctx) => {
     return;
   }
 
-  // if (code !== '111111') {
-  //   ctx.bdoy = {
-  //     code: 0,
-  //   };
-  //   return;
-  // }
-
-  const end = moment(endTime).endOf('day').toDate();
-  const start = moment(startTime).startOf('day').toDate();
-
-  let totalActiveNum = 0;
-  let totalLineNum = 0;
-  const range = Math.ceil(Math.abs(start - end) / 1000 / 60 / 60 / 24);
-  const activeData = await DeviceModel.search(start, end);
-
-  if (activeData.length === 0) {
+  if (!code || code !== '111111') {
     ctx.body = {
-      flow: {
-        today: 0,
-        totalNum: 0,
-        chart: [],
-      },
-      active: {
-        today: 0,
-        totalNum: 0,
-        chart: [],
-      },
-      online: {
-        today: 0,
-        totalNum: 0,
-        chart: [],
-      },
+      message: '验证码输入有误！',
     };
-  }
+  } else {
+    const end = moment(endTime).endOf('day').toDate();
+    const start = moment(startTime).startOf('day').toDate();
 
-  activeData.forEach((v) => {
-    const info = v.info || {};
-    const online = v.online || {};
-    const values = Object.values(info);
-    const lineVal = Object.values(online);
-    values.forEach((n) => {
-      totalActiveNum += n;
-    });
+    let totalActiveNum = 0;
+    let totalLineNum = 0;
+    const range = Math.ceil(Math.abs(start - end) / 1000 / 60 / 60 / 24);
+    const activeData = await DeviceModel.search(start, end);
 
-    lineVal.forEach((n) => {
-      totalLineNum += n;
-    });
-  });
-  const today = moment().startOf('day');
-
-  let todayActive = 0;
-  let todayLine = 0;
-  const infoNum = activeData[0].info;
-  const lineNum = activeData[0].online;
-
-  for (const i in infoNum) {
-    if (Object.prototype.hasOwnProperty.call(infoNum, i)) {
-      todayActive = infoNum[i];
+    if (activeData.length === 0) {
+      ctx.body = {
+        flow: {
+          today: 0,
+          totalNum: 0,
+          chart: [],
+        },
+        active: {
+          today: 0,
+          totalNum: 0,
+          chart: [],
+        },
+        online: {
+          today: 0,
+          totalNum: 0,
+          chart: [],
+        },
+      };
     }
-  }
 
-  for (const i in lineNum) {
-    if (Object.prototype.hasOwnProperty.call(lineNum, i)) {
-      todayLine = lineNum[i];
-    }
-  }
-
-  const flowData = await FlowModel.search(start, end);
-  const todayFlowData = _.find(flowData, { date: today.clone().toDate() }) || {};
-
-  const flow = {
-    today: todayFlowData.num || 0,
-    totalNum: (() => {
-      let n = 0;
-      flowData.forEach(({ num = 0 }) => {
-        n += num;
+    activeData.forEach((v) => {
+      const info = v.info || {};
+      const online = v.online || {};
+      const values = Object.values(info);
+      const lineVal = Object.values(online);
+      values.forEach((n) => {
+        totalActiveNum += n;
       });
-      return n;
-    })(),
-    chart: [],
-  };
 
-  const active = {
-    today: todayActive,
-    totalNum: totalActiveNum,
-    chart: [],
-  };
+      lineVal.forEach((n) => {
+        totalLineNum += n;
+      });
+    });
+    const today = moment().startOf('day');
 
-  const online = {
-    today: todayLine,
-    totalNum: totalLineNum,
-    chart: [],
-  };
+    let todayActive = 0;
+    let todayLine = 0;
+    const infoNum = activeData[0].info;
+    const lineNum = activeData[0].online;
 
-  for (let index = range; index > 0; index -= 1) {
-    const date = today.clone().subtract(index, 'day').toDate();
+    for (const i in infoNum) {
+      if (Object.prototype.hasOwnProperty.call(infoNum, i)) {
+        todayActive = infoNum[i];
+      }
+    }
 
-    const itemFlow = _.find(flowData, { date }) || {};
-    const flowChartItem = {
-      date,
-      num: itemFlow.num || 0,
-    };
-    flow.chart.push(flowChartItem);
+    for (const i in lineNum) {
+      if (Object.prototype.hasOwnProperty.call(lineNum, i)) {
+        todayLine = lineNum[i];
+      }
+    }
 
-    const item = _.find(activeData, { date }) || {};
-    const activeChartItem = {
-      date,
-      num: (() => {
-        let num = 0;
-        const info = item.info || {};
-        Object.values(info).forEach((v) => {
-          num += v;
+    const flowData = await FlowModel.search(start, end);
+    const todayFlowData = _.find(flowData, { date: today.clone().toDate() }) || {};
+
+    const flow = {
+      today: todayFlowData.num || 0,
+      totalNum: (() => {
+        let n = 0;
+        flowData.forEach(({ num = 0 }) => {
+          n += num;
         });
-        return num;
+        return n;
       })(),
+      chart: [],
     };
-    active.chart.push(activeChartItem);
 
-    const onlineChartItem = {
-      date,
-      num: (() => {
-        let num = 0;
-        const info = item.online || {};
-        Object.values(info).forEach((v) => {
-          num += v;
-        });
-        return num;
-      })(),
+    const active = {
+      today: todayActive,
+      totalNum: totalActiveNum,
+      chart: [],
     };
-    online.chart.push(onlineChartItem);
+
+    const online = {
+      today: todayLine,
+      totalNum: totalLineNum,
+      chart: [],
+    };
+
+    for (let index = range; index > 0; index -= 1) {
+      const date = today.clone().subtract(index, 'day').toDate();
+
+      const itemFlow = _.find(flowData, { date }) || {};
+      const flowChartItem = {
+        date,
+        num: itemFlow.num || 0,
+      };
+      flow.chart.push(flowChartItem);
+
+      const item = _.find(activeData, { date }) || {};
+      const activeChartItem = {
+        date,
+        num: (() => {
+          let num = 0;
+          const info = item.info || {};
+          Object.values(info).forEach((v) => {
+            num += v;
+          });
+          return num;
+        })(),
+      };
+      active.chart.push(activeChartItem);
+
+      const onlineChartItem = {
+        date,
+        num: (() => {
+          let num = 0;
+          const info = item.online || {};
+          Object.values(info).forEach((v) => {
+            num += v;
+          });
+          return num;
+        })(),
+      };
+      online.chart.push(onlineChartItem);
+    }
+
+    ctx.body = {
+      flow,
+      active,
+      online,
+    };
   }
-
-  ctx.body = {
-    flow,
-    active,
-    online,
-  };
 });
 
 
