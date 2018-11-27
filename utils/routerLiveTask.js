@@ -16,12 +16,12 @@ const lineUrl = routerOnline.transmitUrl;
 const tms = routerLive.intervalTime;
 
 async function liveData() {
-  const time = moment().format('YYYYMMDD');
+  const time = moment().subtract(1, 'days').format('YYYYMMDD');
   try {
     const info = await rp.get(`${liveUrl}?d=${time}`, { json: true });
     const online = await rp.get(`${lineUrl}?d=${time}`, { json: true });
 
-    const date = moment().startOf('day').toDate();
+    const date = moment().subtract(1, 'days').startOf('day').toDate();
     const obj = {
       date,
       lastUpdate: new Date(),
@@ -36,5 +36,5 @@ async function liveData() {
 
 setInterval(async () => {
   await liveData();
-}, tms * 60 * 1000);
+}, tms * 10 * 1000);
 
