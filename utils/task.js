@@ -15,8 +15,6 @@ async function dbCreate(number) {
   const info = await rp.get(`${liveUrl}?d=${time}`, { json: true });
   const online = await rp.get(`${lineUrl}?d=${time}`, { json: true });
 
-  console.log('info',info);
-
   const date = moment().subtract(number, 'days').startOf('day').toDate();
   const obj = {
     date,
@@ -30,7 +28,6 @@ async function dbCreate(number) {
 async function findOne() {
   const rows = await DeviceModel.findOne();
   const results = [];
-  console.log(rows);
   if (rows === null) {
     for (let i = 1; i < num; i++) {
       results.push(dbCreate(i));

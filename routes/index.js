@@ -115,6 +115,7 @@ router.get('/overview', async (ctx) => {
           chart: [],
         },
       };
+      return;
     }
 
     activeData.forEach((v) => {
