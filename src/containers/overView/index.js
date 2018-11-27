@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Container, Button, Input, Dropdown, Grid } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import DatePicker from './components/DatePicker';
 import GridDashboard from './components/GridDashboard';
 import Chart from './components/Chart';
+import Alert from '../Alert';
 import { dailyDataAction } from '../../actions/dailyActive';
 
 const options = [
@@ -23,11 +23,6 @@ class OverView extends React.Component {
       code: '',
     };
   }
-  componentDidMount() {
-    const { dispatch } = this.props;
-    const { startTime, endTime } = this.state;
-    dispatch(dailyDataAction({ startTime, endTime }));
-  }
   onChangeCode = (e) => {
     this.setState({ code: e.target.value });
   }
@@ -38,20 +33,20 @@ class OverView extends React.Component {
     this.setState({ endTime: value });
   }
   onSerch = () => {
-    const { startTime, endTime } = this.state;
+    const { startTime, endTime, code } = this.state;
     const { dispatch } = this.props;
-    if (startTime && startTime <= endTime) {
-      dispatch(dailyDataAction({ startTime, endTime }));
-    } else {
-      alert('请输入正确的查询日期');
-    }
+    if (startTime && startTime <= endTime && code) {
+      dispatch(dailyDataAction({ startTime, endTime, code }));
+    } else if (!code) alert('请输入验证码');
+    else alert('请输入正确的查询日期');
   }
   render() {
-    const { startTime, endTime } = this.state;
+    const { startTime, endTime, code } = this.state;
+    const { datas } = this.props.dailyActive;
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
-          <Grid style={{ marginBottom: '1em' }}>
+          <Grid style={{ marginBottom: '.5em' }}>
             <Grid.Column width={4}>
               <Button.Group style={{ verticalAlign: 'middle', marginRight: '16px' }}>
                 <Button style={{ padding: '14px 21px 14px 21px'}}>版本号</Button>
@@ -59,7 +54,7 @@ class OverView extends React.Component {
               </Button.Group>
             </Grid.Column>
             <Grid.Column width={4}>
-              <Input label={{ content: '验证码', style: { lineHeight: '20px' } }} style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={this.onChangeCode} />
+              <Input label={{ content: '验证码', style: { lineHeight: '20px' } }} value={code} style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={this.onChangeCode} />
             </Grid.Column>
             <Grid.Column width={4}>
               <Input label={{ content: '开始日期', style: { lineHeight: '20px' } }} value={startTime} type="date" style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={(e, { value }) => this.onChangeStart(value)} />
@@ -77,8 +72,13 @@ class OverView extends React.Component {
               primary
             />
           </Container>
-          <GridDashboard />
-          <Chart />
+          {datas.flow ?
+            <React.Fragment>
+              <GridDashboard />
+              <Chart />
+            </React.Fragment>
+          : <Alert message={datas.message} />
+          }
         </Container>
       </React.Fragment>
     );
@@ -89,4 +89,8 @@ OverView.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(OverView);
+function mapStateToProps({ dailyActive }) {
+  return { dailyActive };
+}
+
+export default connect(mapStateToProps)(OverView);

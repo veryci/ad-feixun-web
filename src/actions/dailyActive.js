@@ -6,8 +6,8 @@ export function dailyDataAction(obj) {
   return async (dispatch) => {
     try {
       const response = await api.dailyActive(obj);
+      const body = await response.json();
       if (response.status === 200) {
-        const body = await response.json();
         return dispatch({
           type: DAILY_ACTIVE,
           dailyActiveData: {
