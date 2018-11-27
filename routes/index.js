@@ -70,7 +70,7 @@ router.get('/overviewexcel', async (ctx) => {
  * endTime: string
  */
 router.get('/overview', async (ctx) => {
-  let { startTime, endTime } = ctx.query;
+  let { startTime, endTime, code } = ctx.query;
 
   startTime = startTime === '0' ? new Date() : startTime;
   endTime = endTime === '0' ? new Date() : endTime;
@@ -82,6 +82,13 @@ router.get('/overview', async (ctx) => {
     };
     return;
   }
+
+  // if (code !== '111111') {
+  //   ctx.bdoy = {
+  //     code: 0,
+  //   };
+  //   return;
+  // }
 
   const end = moment(endTime).endOf('day').toDate();
   const start = moment(startTime).startOf('day').toDate();
@@ -129,7 +136,7 @@ router.get('/overview', async (ctx) => {
   let todayActive = 0;
   let todayLine = 0;
   const infoNum = activeData[0].info;
-  const lineNum = activeData[0].info;
+  const lineNum = activeData[0].online;
 
   for (const i in infoNum) {
     if (Object.prototype.hasOwnProperty.call(infoNum, i)) {
