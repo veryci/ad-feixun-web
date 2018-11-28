@@ -6,7 +6,7 @@ import moment from 'moment';
 import GridDashboard from './components/GridDashboard';
 import Chart from './components/Chart';
 import Alert from '../Alert';
-import { dailyDataAction } from '../../actions/dailyActive';
+import { dailyDataAction, versionDataAction } from '../../actions';
 
 const options = [
   { key: 'edit', icon: 'edit', text: 'Edit Post', value: 'edit' },
@@ -21,12 +21,22 @@ class OverView extends React.Component {
       startTime: moment().subtract(8, 'days').format('YYYY-MM-DD'),
       endTime: moment().subtract(1, 'days').format('YYYY-MM-DD'),
       code: '',
+      version: '',
       message: '',
     };
+  }
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(versionDataAction());
   }
   onChangeCode = (e) => {
     const { dailyActive: { datas } } = this.props;
     this.setState({ code: e.target.value, message: '' });
+    datas.message = '';
+  }
+  changeVersion = (e, { value }) => {
+    const { dailyActive: { datas } } = this.props;
+    this.setState({ version: value, message: '' });
     datas.message = '';
   }
   onChangeStart = (value) => {
@@ -40,16 +50,18 @@ class OverView extends React.Component {
     datas.message = '';
   }
   onSerch = () => {
-    const { startTime, endTime, code } = this.state;
+    const { startTime, endTime, code, version } = this.state;
     const { dispatch } = this.props;
-    if (startTime && startTime <= endTime && code) {
-      dispatch(dailyDataAction({ startTime, endTime, code }));
-    } else if (!code) this.setState({ message: '请输入验证码' });
+    if (startTime && startTime <= endTime && code && version) {
+      dispatch(dailyDataAction({ startTime, endTime, code, version }));
+    } else if (!version) this.setState({ message: '请选择版本号' });
+    else if (!code) this.setState({ message: '请输入验证码' });
     else this.setState({ message: '请输入正确的开始日期' });
   }
   render() {
-    const { startTime, endTime, code, message } = this.state;
-    const { datas } = this.props.dailyActive;
+    const { startTime, endTime, code, message, version } = this.state;
+    const { dailyActive: { datas }, versionData } = this.props;
+    const options = versionData.datas.map(e => ({ key: e._id, text: e.version, value: e.version }));
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
@@ -57,7 +69,7 @@ class OverView extends React.Component {
             <Grid.Column width={4}>
               <Button.Group style={{ verticalAlign: 'middle', marginRight: '16px' }}>
                 <Button style={{ padding: '14px 21px 14px 21px'}}>版本号</Button>
-                <Dropdown defaultValue={options[0].value} options={options} style={{ padding: '14px 21px 14px 21px'}} floating button />
+                <Dropdown placeholder='选择版本' scrolling loading={!options[0]} value={version} onChange={this.changeVersion} options={options} style={{ padding: '14px 21px 14px 21px'}} floating button />
               </Button.Group>
             </Grid.Column>
             <Grid.Column width={4}>
@@ -70,14 +82,16 @@ class OverView extends React.Component {
               <Input label={{ content: '结束日期', style: { lineHeight: '20px' } }} value={endTime} type="date" style={{ verticalAlign: 'middle', marginRight: '16px' }} onChange={(e, { value }) => this.onChangeEnd(value)} />
             </Grid.Column>
           </Grid>
-          <Container textAlign='right'>
-            <Button content="查询" primary onClick={this.onSerch} />
+          <Container>
+            {datas.flow && <Button content="下载固件" primary />}
             <Button
               as="a"
               // href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
               content="导出Excel"
               primary
+              style={{ float: 'right' }}
             />
+            <Button content="查询" style={{ float: 'right' }} primary onClick={this.onSerch} />
           </Container>
           {datas.flow &&
             <React.Fragment>
@@ -97,8 +111,8 @@ OverView.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-function mapStateToProps({ dailyActive }) {
-  return { dailyActive };
+function mapStateToProps({ dailyActive, versionData }) {
+  return { dailyActive, versionData };
 }
 
 export default connect(mapStateToProps)(OverView);

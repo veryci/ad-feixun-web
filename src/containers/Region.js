@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactEcharts from 'echarts-for-react';
 import geoCoord from '../lib/geoData';
-import { regionDataAction } from '../actions/region';
+import { regionDataAction } from '../actions';
 
 require('echarts/map/js/china.js');
 

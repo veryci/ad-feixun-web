@@ -1,12 +1,17 @@
 import { push } from 'react-router-redux';
 import api from '../api';
+import { versionDataAction } from './version';
+import { dailyDataAction } from './dailyActive';
+import { onlineDataAction } from './online';
+import { regionDataAction } from './region';
+
 
 export const SET_USER = 'SET_USER';
 export const SET_USERS = 'SET_USERS';
 export const SET_VCCP = 'SET_VCCP';
 export const SET_DATA = 'SET_DATA';
 
-export function logoutAction() {
+function logoutAction() {
   return async (dispatch) => {
     const user = {};
     try {
@@ -29,7 +34,7 @@ export function logoutAction() {
   };
 }
 
-export function loginAction({ mobile, password }) {
+function loginAction({ mobile, password }) {
   return async (dispatch) => {
     let user = {};
     let msg = '';
@@ -62,7 +67,7 @@ export function loginAction({ mobile, password }) {
   };
 }
 
-export function dataAction() {
+function dataAction() {
   return async (dispatch) => {
     let data = {};
     let msg = '';
@@ -93,3 +98,13 @@ export function dataAction() {
     }
   };
 }
+
+export {
+  logoutAction,
+  loginAction,
+  dataAction,
+  dailyDataAction,
+  onlineDataAction,
+  regionDataAction,
+  versionDataAction,
+};
