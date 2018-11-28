@@ -13,7 +13,8 @@
       "dbCollection": {
         "device": "device",
         "online": "online",
-        "flow": "flow"
+        "flow": "flow",
+        "firmware": "firmware"
       }
     }
   },

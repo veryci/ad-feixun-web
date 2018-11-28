@@ -5,6 +5,7 @@ const xlsx = require('node-xlsx');
 
 const DeviceModel = require('../models/DeviceModel');
 const FlowModel = require('../models/FlowModel');
+const firmwareModel = require('../models/Firmware');
 
 require('moment-timezone');
 
@@ -71,7 +72,7 @@ router.get('/overviewexcel', async (ctx) => {
  */
 router.get('/overview', async (ctx) => {
   let { startTime, endTime } = ctx.query;
-  const { code } = ctx.query;
+  const { version = '22.6.520.105', code } = ctx.query;
 
   startTime = startTime === '0' ? new Date() : startTime;
   endTime = endTime === '0' ? new Date() : endTime;
@@ -84,9 +85,15 @@ router.get('/overview', async (ctx) => {
     return;
   }
 
-  if (!code || code !== '111111') {
+  console.log(version, code);
+
+  const rows = await firmwareModel.findOne(version, code);
+
+  console.log('rows', rows);
+
+  if (!version || !code || rows === null) {
     ctx.body = {
-      message: '验证码输入有误！',
+      message: '版本号或验证码输入有误！',
     };
   } else {
     const end = moment(endTime).endOf('day').toDate();
@@ -121,14 +128,18 @@ router.get('/overview', async (ctx) => {
     activeData.forEach((v) => {
       const info = v.info || {};
       const online = v.online || {};
-      const values = Object.values(info);
-      const lineVal = Object.values(online);
-      values.forEach((n) => {
-        totalActiveNum += n;
+      const infoKey = Object.keys(info);
+      const lineKey = Object.keys(online);
+      infoKey.forEach((n) => {
+        if (n === version) {
+          totalActiveNum += info[n];
+        }
       });
 
-      lineVal.forEach((n) => {
-        totalLineNum += n;
+      lineKey.forEach((n) => {
+        if (n === version) {
+          totalLineNum += online[n];
+        }
       });
     });
     const today = moment().startOf('day');
@@ -221,6 +232,11 @@ router.get('/overview', async (ctx) => {
       online,
     };
   }
+});
+
+router.get('/versions', async (ctx) => {
+  const data = await firmwareModel.search();
+  ctx.body = data;
 });
 
 
