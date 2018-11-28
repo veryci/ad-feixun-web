@@ -61,7 +61,7 @@ class OverView extends React.Component {
   render() {
     const { startTime, endTime, code, message, version } = this.state;
     const { dailyActive: { datas }, versionData } = this.props;
-    const options = versionData.datas.map(e => ({ key: e._id, text: e.version, value: e.version }));
+    const options = versionData.datas.map(e => ({ key: e._id, text: e.version, value: e.version, url: e.url }));
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
@@ -83,15 +83,16 @@ class OverView extends React.Component {
             </Grid.Column>
           </Grid>
           <Container>
-            {datas.flow && <Button content="下载固件" primary />}
+            {datas.flow && <Button basic content="下载固件" color='grey' />}
             <Button
               as="a"
+              basic
               // href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
               content="导出Excel"
-              primary
+              color='grey'
               style={{ float: 'right' }}
             />
-            <Button content="查询" style={{ float: 'right' }} primary onClick={this.onSerch} />
+            <Button basic content="查询" style={{ float: 'right' }} color='grey' onClick={this.onSerch} />
           </Container>
           {datas.flow &&
             <React.Fragment>
