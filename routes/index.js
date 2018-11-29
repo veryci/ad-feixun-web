@@ -72,7 +72,7 @@ router.get('/overviewexcel', async (ctx) => {
  */
 router.get('/overview', async (ctx) => {
   let { startTime, endTime } = ctx.query;
-  const { version = '22.6.520.105', code } = ctx.query;
+  const { version, code } = ctx.query;
 
   startTime = startTime === '0' ? new Date() : startTime;
   endTime = endTime === '0' ? new Date() : endTime;
@@ -200,8 +200,10 @@ router.get('/overview', async (ctx) => {
         num: (() => {
           let num = 0;
           const info = item.info || {};
-          Object.values(info).forEach((v) => {
-            num += v;
+          Object.keys(info).forEach((v) => {
+            if (v === version) {
+              num += info[v];
+            }
           });
           return num;
         })(),
@@ -213,8 +215,10 @@ router.get('/overview', async (ctx) => {
         num: (() => {
           let num = 0;
           const info = item.online || {};
-          Object.values(info).forEach((v) => {
-            num += v;
+          Object.keys(info).forEach((v) => {
+            if (v === version) {
+              num += info[v];
+            }
           });
           return num;
         })(),

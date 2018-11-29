@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "斐讯平台",
   "private": true,
-  "proxy": "http://locolhost:4040/",
+  "proxy": "http://localhost:4040/",
   "scripts": {
     "dev": "cross-env NODE_ENV=dev nodemon app.js",
     "start": "react-scripts start",
