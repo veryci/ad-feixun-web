@@ -8,12 +8,6 @@ import Chart from './components/Chart';
 import Alert from '../Alert';
 import { dailyDataAction, versionDataAction } from '../../actions';
 
-const options = [
-  { key: 'edit', icon: 'edit', text: 'Edit Post', value: 'edit' },
-  { key: 'delete', icon: 'delete', text: 'Remove Post', value: 'delete' },
-  { key: 'hide', icon: 'hide', text: 'Hide Post', value: 'hide' },
-]
-
 class OverView extends React.Component {
   constructor() {
     super();
@@ -21,6 +15,7 @@ class OverView extends React.Component {
       startTime: moment().subtract(8, 'days').format('YYYY-MM-DD'),
       endTime: moment().subtract(1, 'days').format('YYYY-MM-DD'),
       code: '',
+      url: '',
       version: '',
       message: '',
     };
@@ -32,11 +27,6 @@ class OverView extends React.Component {
   onChangeCode = (e) => {
     const { dailyActive: { datas } } = this.props;
     this.setState({ code: e.target.value, message: '' });
-    datas.message = '';
-  }
-  changeVersion = (e, { value }) => {
-    const { dailyActive: { datas } } = this.props;
-    this.setState({ version: value, message: '' });
     datas.message = '';
   }
   onChangeStart = (value) => {
@@ -58,10 +48,16 @@ class OverView extends React.Component {
     else if (!code) this.setState({ message: '请输入验证码' });
     else this.setState({ message: '请输入正确的开始日期' });
   }
-  render() {
-    const { startTime, endTime, code, message, version } = this.state;
+  changeVersion = (e, { value }) => {
     const { dailyActive: { datas }, versionData } = this.props;
-    const options = versionData.datas.map(e => ({ key: e._id, text: e.version, value: e.version, url: e.url }));
+    const { url } = versionData.datas.find(e => e.version === value);
+    this.setState({ url, version: value, message: '' });
+    datas.message = '';
+  }
+  render() {
+    const { startTime, endTime, code, message, version, url } = this.state;
+    const { dailyActive: { datas }, versionData } = this.props;
+    const options = versionData.datas.map(e => ({ key: e._id, text: e.version, value: e.version }));
     return (
       <React.Fragment>
         <Container style={{ marginTop: '7em' }}>
@@ -69,7 +65,7 @@ class OverView extends React.Component {
             <Grid.Column width={4}>
               <Button.Group style={{ verticalAlign: 'middle', marginRight: '16px' }}>
                 <Button style={{ padding: '14px 21px 14px 21px'}}>版本号</Button>
-                <Dropdown placeholder='选择版本' scrolling loading={!options[0]} value={version} onChange={this.changeVersion} options={options} style={{ padding: '14px 21px 14px 21px'}} floating button />
+                <Dropdown placeholder="选择版本" scrolling loading={!options[0]} value={version} onChange={this.changeVersion} options={options} style={{ padding: '14px 21px 14px 21px'}} floating button />
               </Button.Group>
             </Grid.Column>
             <Grid.Column width={4}>
@@ -83,16 +79,16 @@ class OverView extends React.Component {
             </Grid.Column>
           </Grid>
           <Container>
-            {datas.flow && <Button basic content="下载固件" color='grey' />}
+            {datas.flow && <Button basic href={url} content="下载固件" color="grey" />}
             <Button
               as="a"
               basic
               // href={`/api/overviewexcel?startTime=${startTime}&endTime=${endTime}`}
               content="导出Excel"
-              color='grey'
+              color="grey"
               style={{ float: 'right' }}
             />
-            <Button basic content="查询" style={{ float: 'right' }} color='grey' onClick={this.onSerch} />
+            <Button basic content="查询" style={{ float: 'right' }} color="grey" onClick={this.onSerch} />
           </Container>
           {datas.flow &&
             <React.Fragment>
@@ -110,6 +106,8 @@ class OverView extends React.Component {
 
 OverView.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  dailyActive: PropTypes.object.isRequired,
+  versionData: PropTypes.object.isRequired,
 };
 
 function mapStateToProps({ dailyActive, versionData }) {
