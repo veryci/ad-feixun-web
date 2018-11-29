@@ -1,7 +1,9 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import Loadable from 'react-loadable';
-import Home from './containers/Home';
+import Header from './containers/Header';
+import Footer from './containers/Footer';
+import overView from './containers/overView';
 
 const Loading = () => <div>Loading...</div>;
 
@@ -12,10 +14,14 @@ const Region = Loadable({
 
 const App = () => (
   <Router>
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/region" component={Region} />
-    </Switch>
+    <React.Fragment>
+      <Header />
+      <Switch>
+        <Route exact path="/" component={overView} />
+        <Route path="/region" component={Region} />
+      </Switch>
+      <Footer />
+    </React.Fragment>
   </Router>
 );
 
