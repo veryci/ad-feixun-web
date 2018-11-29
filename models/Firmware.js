@@ -41,7 +41,7 @@ exports.save = async (arr) => {
       arr.push({
         version: element,
         code: `111${element.split('.')[3]}`,
-        url: `/${element}`,
+        url: `http://117.121.41.228:4040/firmware/K2A5-release-${element}.tar.gz`,
       });
     });
   }

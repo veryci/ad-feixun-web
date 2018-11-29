@@ -85,11 +85,7 @@ router.get('/overview', async (ctx) => {
     return;
   }
 
-  console.log(version, code);
-
   const rows = await firmwareModel.findOne(version, code);
-
-  console.log('rows', rows);
 
   if (!version || !code || rows === null) {
     ctx.body = {
@@ -150,13 +146,13 @@ router.get('/overview', async (ctx) => {
     const lineNum = activeData[0].online;
 
     for (const i in infoNum) {
-      if (Object.prototype.hasOwnProperty.call(infoNum, i)) {
+      if (i === version) {
         todayActive = infoNum[i];
       }
     }
 
     for (const i in lineNum) {
-      if (Object.prototype.hasOwnProperty.call(lineNum, i)) {
+      if (i === version) {
         todayLine = lineNum[i];
       }
     }
